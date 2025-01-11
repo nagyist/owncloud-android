@@ -23,6 +23,7 @@ package com.owncloud.android.presentation.viewmodels.sharing
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.owncloud.android.domain.UseCaseResult
+import com.owncloud.android.domain.capabilities.usecases.GetStoredCapabilitiesUseCase
 import com.owncloud.android.domain.sharing.shares.model.OCShare
 import com.owncloud.android.domain.sharing.shares.usecases.CreatePrivateShareAsyncUseCase
 import com.owncloud.android.domain.sharing.shares.usecases.CreatePublicShareAsyncUseCase
@@ -74,6 +75,7 @@ class ShareViewModelTest {
     private lateinit var createPublicShareAsyncUseCase: CreatePublicShareAsyncUseCase
     private lateinit var editPublicShareAsyncUseCase: EditPublicShareAsyncUseCase
     private lateinit var deletePublicShareAsyncUseCase: DeleteShareAsyncUseCase
+    private lateinit var getStoredCapabilitiesUseCase: GetStoredCapabilitiesUseCase
     private lateinit var ocContextProvider: ContextProvider
 
     private val filePath = "/Photos/image.jpg"
@@ -130,9 +132,10 @@ class ShareViewModelTest {
         createPublicShareAsyncUseCase = spyk(mockkClass(CreatePublicShareAsyncUseCase::class))
         editPublicShareAsyncUseCase = spyk(mockkClass(EditPublicShareAsyncUseCase::class))
         deletePublicShareAsyncUseCase = spyk(mockkClass(DeleteShareAsyncUseCase::class))
+        getStoredCapabilitiesUseCase = spyk(mockkClass(GetStoredCapabilitiesUseCase::class))
 
-        every { getSharesAsLiveDataUseCase.execute(any()) } returns sharesLiveData
-        every { getShareAsLiveDataUseCase.execute(any()) } returns privateShareLiveData
+        every { getSharesAsLiveDataUseCase(any()) } returns sharesLiveData
+        every { getShareAsLiveDataUseCase(any()) } returns privateShareLiveData
 
         testCoroutineDispatcher.pauseDispatcher()
 
@@ -147,6 +150,7 @@ class ShareViewModelTest {
             createPublicShareAsyncUseCase,
             editPublicShareAsyncUseCase,
             deletePublicShareAsyncUseCase,
+            getStoredCapabilitiesUseCase,
             coroutineDispatcherProvider
         )
     }
@@ -178,7 +182,7 @@ class ShareViewModelTest {
         expectedValues: List<Event<UIResult<Unit?>>>
     ) {
         initTest()
-        coEvery { createPrivateShareAsyncUseCase.execute(any()) } returns useCaseResult
+        coEvery { createPrivateShareAsyncUseCase(any()) } returns useCaseResult
 
         shareViewModel.insertPrivateShare(
             filePath = OC_SHARE.path,
@@ -193,14 +197,14 @@ class ShareViewModelTest {
         }
         assertEquals(expectedValues, emittedValues)
 
-        coVerify(exactly = 1) { createPrivateShareAsyncUseCase.execute(any()) }
-        coVerify(exactly = 0) { createPublicShareAsyncUseCase.execute(any()) }
+        coVerify(exactly = 1) { createPrivateShareAsyncUseCase(any()) }
+        coVerify(exactly = 0) { createPublicShareAsyncUseCase(any()) }
     }
 
     @Test
     fun refreshPrivateShare() {
         initTest()
-        coEvery { getShareAsLiveDataUseCase.execute(any()) } returns MutableLiveData(OC_SHARE)
+        coEvery { getShareAsLiveDataUseCase(any()) } returns MutableLiveData(OC_SHARE)
 
         shareViewModel.refreshPrivateShare(OC_SHARE.remoteId)
 
@@ -209,7 +213,7 @@ class ShareViewModelTest {
         }
         assertEquals(Event(UIResult.Success(OC_SHARE)), emittedValues)
 
-        coVerify(exactly = 1) { getShareAsLiveDataUseCase.execute(any()) }
+        coVerify(exactly = 1) { getShareAsLiveDataUseCase(any()) }
     }
 
     @Test
@@ -235,7 +239,7 @@ class ShareViewModelTest {
         expectedValues: List<Event<UIResult<Unit>?>>
     ) {
         initTest()
-        coEvery { editPrivateShareAsyncUseCase.execute(any()) } returns useCaseResult
+        coEvery { editPrivateShareAsyncUseCase(any()) } returns useCaseResult
 
         shareViewModel.updatePrivateShare(
             remoteId = OC_SHARE.remoteId,
@@ -248,8 +252,8 @@ class ShareViewModelTest {
         }
         assertEquals(expectedValues, emittedValues)
 
-        coVerify(exactly = 1) { editPrivateShareAsyncUseCase.execute(any()) }
-        coVerify(exactly = 0) { editPublicShareAsyncUseCase.execute(any()) }
+        coVerify(exactly = 1) { editPrivateShareAsyncUseCase(any()) }
+        coVerify(exactly = 0) { editPublicShareAsyncUseCase(any()) }
     }
 
     /******************************************************************************************************
@@ -279,14 +283,13 @@ class ShareViewModelTest {
         expectedValues: List<Event<UIResult<Unit>?>>
     ) {
         initTest()
-        coEvery { createPublicShareAsyncUseCase.execute(any()) } returns useCaseResult
+        coEvery { createPublicShareAsyncUseCase(any()) } returns useCaseResult
 
         shareViewModel.insertPublicShare(
             filePath = OC_SHARE.path,
             name = "Photos 2 link",
             password = "1234",
             expirationTimeInMillis = -1,
-            publicUpload = false,
             permissions = OC_SHARE.permissions,
             accountName = OC_SHARE.accountOwner
         )
@@ -296,8 +299,8 @@ class ShareViewModelTest {
         }
         assertEquals(expectedValues, emittedValues)
 
-        coVerify(exactly = 0) { createPrivateShareAsyncUseCase.execute(any()) }
-        coVerify(exactly = 1) { createPublicShareAsyncUseCase.execute(any()) }
+        coVerify(exactly = 0) { createPrivateShareAsyncUseCase(any()) }
+        coVerify(exactly = 1) { createPublicShareAsyncUseCase(any()) }
     }
 
     @Test
@@ -323,14 +326,13 @@ class ShareViewModelTest {
         expectedValues: List<Event<UIResult<Unit>?>>
     ) {
         initTest()
-        coEvery { editPublicShareAsyncUseCase.execute(any()) } returns useCaseResult
+        coEvery { editPublicShareAsyncUseCase(any()) } returns useCaseResult
 
         shareViewModel.updatePublicShare(
             remoteId = OC_SHARE.remoteId,
             name = "Photos 2 link",
             password = "1234",
             expirationDateInMillis = -1,
-            publicUpload = false,
             permissions = -1,
             accountName = "Carlos"
         )
@@ -340,8 +342,8 @@ class ShareViewModelTest {
         }
         assertEquals(expectedValues, emittedValues)
 
-        coVerify(exactly = 0) { editPrivateShareAsyncUseCase.execute(any()) }
-        coVerify(exactly = 1) { editPublicShareAsyncUseCase.execute(any()) }
+        coVerify(exactly = 0) { editPrivateShareAsyncUseCase(any()) }
+        coVerify(exactly = 1) { editPublicShareAsyncUseCase(any()) }
     }
 
     /******************************************************************************************************
@@ -371,7 +373,7 @@ class ShareViewModelTest {
         expectedValues: List<Event<UIResult<Unit>?>>
     ) {
         initTest()
-        coEvery { deletePublicShareAsyncUseCase.execute(any()) } returns useCaseResult
+        coEvery { deletePublicShareAsyncUseCase(any()) } returns useCaseResult
 
         shareViewModel.deleteShare(remoteId = OC_SHARE.remoteId)
 
@@ -382,7 +384,7 @@ class ShareViewModelTest {
         assertEquals(expectedValues, emittedValues)
 
         coVerify(exactly = 1) {
-            deletePublicShareAsyncUseCase.execute(any())
+            deletePublicShareAsyncUseCase(any())
         }
     }
 }

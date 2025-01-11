@@ -3,8 +3,9 @@
  *
  * @author Abel García de Prada
  * @author Juan Carlos Garrote Gascón
+ * @author Jorge Aguado Recio
  *
- * Copyright (C) 2022 ownCloud GmbH.
+ * Copyright (C) 2024 ownCloud GmbH.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -27,6 +28,7 @@ import com.owncloud.android.domain.user.UserRepository
 import com.owncloud.android.domain.user.model.UserAvatar
 import com.owncloud.android.domain.user.model.UserInfo
 import com.owncloud.android.domain.user.model.UserQuota
+import kotlinx.coroutines.flow.Flow
 
 class OCUserRepository(
     private val localUserDataSource: LocalUserDataSource,
@@ -41,8 +43,14 @@ class OCUserRepository(
     override fun getStoredUserQuota(accountName: String): UserQuota? =
         localUserDataSource.getQuotaForAccount(accountName)
 
+    override fun getStoredUserQuotaAsFlow(accountName: String): Flow<UserQuota?> =
+        localUserDataSource.getQuotaForAccountAsFlow(accountName)
+
     override fun getAllUserQuotas(): List<UserQuota> =
         localUserDataSource.getAllUserQuotas()
+
+    override fun getAllUserQuotasAsFlow(): Flow<List<UserQuota>> =
+        localUserDataSource.getAllUserQuotasAsFlow()
 
     override fun getUserAvatar(accountName: String): UserAvatar =
         remoteUserDataSource.getUserAvatar(accountName)

@@ -23,7 +23,7 @@ import androidx.lifecycle.ViewModel
 import com.owncloud.android.MainApp
 import com.owncloud.android.MainApp.Companion.versionCode
 import com.owncloud.android.R
-import com.owncloud.android.data.preferences.datasources.SharedPreferencesProvider
+import com.owncloud.android.data.providers.SharedPreferencesProvider
 import com.owncloud.android.providers.ContextProvider
 
 class ReleaseNotesViewModel(
@@ -45,9 +45,31 @@ class ReleaseNotesViewModel(
 
     companion object {
         val releaseNotesList = listOf(
-            ReleaseNote(R.string.release_notes_3_0_3_title1, R.string.release_notes_3_0_3_subtitle1, ReleaseNoteType.BUGFIX),
-            ReleaseNote(R.string.release_notes_3_0_3_title2, R.string.release_notes_3_0_3_subtitle2, ReleaseNoteType.BUGFIX),
-            ReleaseNote(R.string.release_notes_3_0_3_title3, R.string.release_notes_3_0_3_subtitle3, ReleaseNoteType.BUGFIX)
+            ReleaseNote(
+                title = R.string.release_notes_4_5_0_title_feedback_in_previews,
+                subtitle = R.string.release_notes_4_5_0_subtitle_feedback_in_previews,
+                type = ReleaseNoteType.ENHANCEMENT
+            ),
+            ReleaseNote(
+                title = R.string.release_notes_bugfixes_title,
+                subtitle = R.string.release_notes_bugfixes_subtitle,
+                type = ReleaseNoteType.BUGFIX
+            ),
+            ReleaseNote(
+                title = R.string.release_notes_title_enhanced_bottom_nav_bar,
+                subtitle = R.string.release_notes_subtitle_bottom_nav_bar,
+                type = ReleaseNoteType.ENHANCEMENT
+            ),
+            ReleaseNote(
+                title = R.string.release_notes_4_5_0_title_quota_improvements,
+                subtitle = R.string.release_notes_4_5_0_subtitle_quota_improvements,
+                type = ReleaseNoteType.ENHANCEMENT
+            ),
+            ReleaseNote(
+                title = R.string.release_notes_4_5_0_title_light_users,
+                subtitle = R.string.release_notes_4_5_0_subtitle_light_users,
+                type = ReleaseNoteType.ENHANCEMENT
+            ),
         )
     }
 }

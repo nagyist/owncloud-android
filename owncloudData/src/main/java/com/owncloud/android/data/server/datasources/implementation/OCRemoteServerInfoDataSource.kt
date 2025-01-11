@@ -2,7 +2,9 @@
  * ownCloud Android client application
  *
  * @author Abel García de Prada
- * Copyright (C) 2020 ownCloud GmbH.
+ * @author Juan Carlos Garrote Gascón
+ *
+ * Copyright (C) 2024 ownCloud GmbH.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -87,20 +89,27 @@ class OCRemoteServerInfoDataSource(
         return remoteServerInfo
     }
 
-    override fun getServerInfo(path: String): ServerInfo {
+    override fun getServerInfo(path: String, enforceOIDC: Boolean): ServerInfo {
         // First step: check the status of the server (including its version)
         val remoteServerInfo = getRemoteStatus(path)
         val normalizedProtocolPrefix =
             normalizeProtocolPrefix(remoteServerInfo.baseUrl, remoteServerInfo.isSecureConnection)
 
         // Second step: get authentication method required by the server
-        val authenticationMethod = getAuthenticationMethod(normalizedProtocolPrefix)
+        val authenticationMethod =
+            if (enforceOIDC) AuthenticationMethod.BEARER_TOKEN
+            else getAuthenticationMethod(normalizedProtocolPrefix)
 
-        return ServerInfo(
-            ownCloudVersion = remoteServerInfo.ownCloudVersion.version,
-            baseUrl = normalizedProtocolPrefix,
-            authenticationMethod = authenticationMethod,
-            isSecureConnection = remoteServerInfo.isSecureConnection
-        )
+        return if (authenticationMethod == AuthenticationMethod.BEARER_TOKEN) {
+            ServerInfo.OAuth2Server(
+                ownCloudVersion = remoteServerInfo.ownCloudVersion.version,
+                baseUrl = normalizedProtocolPrefix
+            )
+        } else {
+            ServerInfo.BasicServer(
+                ownCloudVersion = remoteServerInfo.ownCloudVersion.version,
+                baseUrl = normalizedProtocolPrefix,
+            )
+        }
     }
 }
