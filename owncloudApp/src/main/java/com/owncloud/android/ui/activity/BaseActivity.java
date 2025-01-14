@@ -155,7 +155,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param mandatoryCreation When 'true', if an account is not created by the user, the app will be closed.
      *                          To use when no ownCloud account is available.
      */
-    protected void createAccount(boolean mandatoryCreation) {
+    private void createAccount(boolean mandatoryCreation) {
         AccountManager am = AccountManager.get(getApplicationContext());
         am.addAccount(MainApp.Companion.getAccountType(),
                 null,
@@ -173,7 +173,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void onAccountSet(boolean stateWasRecovered) {
         if (getAccount() != null) {
-            mStorageManager = new FileDataStorageManager(this, getAccount(), getContentResolver());
+            mStorageManager = new FileDataStorageManager(getAccount());
             Timber.d("Account set: %s", getAccount().name);
         } else {
             Timber.e("onAccountChanged was called with NULL account associated!");
@@ -212,7 +212,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public FileDataStorageManager getStorageManager() {
-        return mStorageManager;
+        if (mStorageManager == null) {
+            if (getAccount() == null) {
+                swapToDefaultAccount();
+            }
+            return mStorageManager = new FileDataStorageManager(getAccount());
+        } else {
+            return mStorageManager;
+        }
     }
 
     /**

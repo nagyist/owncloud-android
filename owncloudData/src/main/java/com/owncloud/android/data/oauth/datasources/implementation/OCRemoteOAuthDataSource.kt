@@ -2,7 +2,9 @@
  * ownCloud Android client application
  *
  * @author Abel García de Prada
- * Copyright (C) 2020 ownCloud GmbH.
+ * @author Juan Carlos Garrote Gascón
+ *
+ * Copyright (C) 2024 ownCloud GmbH.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -102,6 +104,9 @@ class OCRemoteOAuthDataSource(
                     tokenEndpoint = this.tokenEndpoint,
                     authorizationCode = this.authorizationCode,
                     grantType = this.grantType,
+                    scope = this.scope,
+                    clientId = this.clientId,
+                    clientSecret = this.clientSecret,
                     redirectUri = this.redirectUri,
                     clientAuth = this.clientAuth,
                     codeVerifier = this.codeVerifier
@@ -110,6 +115,9 @@ class OCRemoteOAuthDataSource(
                 TokenRequestParams.RefreshToken(
                     tokenEndpoint = this.tokenEndpoint,
                     grantType = this.grantType,
+                    scope = this.scope,
+                    clientId = this.clientId,
+                    clientSecret = this.clientSecret,
                     clientAuth = this.clientAuth,
                     refreshToken = this.refreshToken
                 )

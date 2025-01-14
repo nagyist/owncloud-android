@@ -6,7 +6,9 @@
  * @author Juan Carlos González Cabrero
  * @author David González Verdugo
  * @author Christian Schabesberger
- * Copyright (C) 2020 ownCloud GmbH.
+ * @author Juan Carlos Garrote Gascón
+ *
+ * Copyright (C) 2024 ownCloud GmbH.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -248,7 +250,7 @@ class ShareFileFragment : Fragment(), ShareUserListAdapter.ShareUserAdapterListe
         if (file!!.isFolder) {
             binding.shareFileSize.isVisible = false
         } else {
-            binding.shareFileSize.text = DisplayUtils.bytesToHumanReadable(file!!.length, activity)
+            binding.shareFileSize.text = DisplayUtils.bytesToHumanReadable(file!!.length, activity, true)
         }
 
         // Private link button
@@ -272,9 +274,7 @@ class ShareFileFragment : Fragment(), ShareUserListAdapter.ShareUserAdapterListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Timber.d("onActivityCreated")
-
-        activity?.setTitle(R.string.share_dialog_title)
-
+        requireActivity().setTitle(R.string.share_dialog_title)
         observeCapabilities() // Get capabilities to update some UI elements depending on them
         observeShares()
     }
