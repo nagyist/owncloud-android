@@ -856,7 +856,7 @@
     <string name="create_space_dialog_gb_unit">GB</string>
     <string name="create_space_dialog_empty_error">Der Space Name darf nicht leer sein</string>
     <string name="create_space_dialog_length_error">Der Space Name darf nicht länger als 255 Zeichen lang sein</string>
-    <string name="create_space_dialog_characters_error">Unzulässige Zeichen: / \\ . : \? * &amp;quot; \' &gt; &lt; |</string>
+    <string name="create_space_dialog_characters_error">Unzulässige Zeichen: / \\ . : \? * \" \' &gt; &lt; |</string>
     <string name="create_space_dialog_quota_empty_error">Das Space Kontingent darf nicht leer sein</string>
     <string name="create_space_dialog_quota_zero_error">Das Space Kontingent muss größer als null sein</string>
     <string name="create_space_dialog_quota_too_large_error">Das Space Kontingent darf nicht größer als 1 PB sein</string>
