@@ -128,8 +128,6 @@ public class CopyAndUploadContentUrisTask extends AsyncTask<Object, Void, Result
 
         ResultCode result = ResultCode.UNKNOWN_ERROR;
 
-        InputStream inputStream = null;
-        FileOutputStream outputStream = null;
         String fullTempPath = null;
         Uri currentUri = null;
 
@@ -148,19 +146,20 @@ public class CopyAndUploadContentUrisTask extends AsyncTask<Object, Void, Result
                 currentRemotePath = uploadPath + UriUtils.getDisplayNameForUri(currentUri, mAppContext);
 
                 fullTempPath = FileStorageUtils.getTemporalPath(account.name, spaceId) + currentRemotePath;
-                inputStream = leakedContentResolver.openInputStream(currentUri);
                 File cacheFile = new File(fullTempPath);
                 File tempDir = cacheFile.getParentFile();
                 if (!tempDir.exists()) {
                     tempDir.mkdirs();
                 }
                 cacheFile.createNewFile();
-                outputStream = new FileOutputStream(fullTempPath);
-                byte[] buffer = new byte[4096];
 
-                int count;
-                while ((count = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, count);
+                try (InputStream inputStream = leakedContentResolver.openInputStream(currentUri);
+                     FileOutputStream outputStream = new FileOutputStream(fullTempPath)) {
+                    byte[] buffer = new byte[4096];
+                    int count;
+                    while ((count = inputStream.read(buffer)) > 0) {
+                        outputStream.write(buffer, 0, count);
+                    }
                 }
 
                 filesToUpload.add(fullTempPath);
@@ -208,22 +207,6 @@ public class CopyAndUploadContentUrisTask extends AsyncTask<Object, Void, Result
                 }
             }
 
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (Exception e) {
-                    Timber.w("Ignoring exception of inputStream closure");
-                }
-            }
-
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (Exception e) {
-                    Timber.w("Ignoring exception of outStream closure");
-                }
-            }
         }
 
         return result;
