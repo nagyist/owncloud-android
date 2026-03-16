@@ -50,7 +50,7 @@ jobs:
             echo "$commitmsg"
 
             # Skip merge and [tx] commits
-            if [[ "$commitmsg" =~ ^Merge ]] || [[ "$commitmsg" =~ ^\[tx\] ]]; then
+            if [[ "$commitmsg" =~ ^Merge ]] || [[ "$commitmsg" =~ ^\[tx\] ]] ||  [[ "$commitmsg" =~ SBOM\ updated ]]; then
               echo "  🚫 Ignored commit"
               continue
             fi
