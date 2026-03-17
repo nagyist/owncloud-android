@@ -748,7 +748,7 @@
     <string name="release_notes_4_8_0_subtitle_space_membership">Benutzer von Infinite Scale können alle Mitglieder eines Spaces sehen und sie mit den entsprechenden Berechtigungen verwalten</string>
     <string name="release_notes_4_8_0_title_spaces_permanent_links">Permanente Links für Spaces</string>
     <string name="release_notes_4_8_0_subtitle_spaces_permanent_links">Nutzer von Infinite Scale können nun einen permanenten Link für einen Bereich abrufen und diesen mit anderen Mitgliedern teilen</string>
-    <string name="release_notes_4_8_0_title_space_public_links">Space öffentliche Links</string>
+    <string name="release_notes_4_8_0_title_space_public_links">Öffentliche Links in Spaces</string>
     <string name="release_notes_4_8_0_subtitle_space_public_links">Benutzer von Infinite Scale können alle öffentlichen Links eines Bereichs einsehen und diese mit den entsprechenden Berechtigungen verwalten</string>
 
     <!-- Open in web -->
