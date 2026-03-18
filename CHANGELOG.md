@@ -59,6 +59,7 @@ ownCloud admins and users.
 * Enhancement - Copy permanent link of a space: [#4758](https://github.com/owncloud/android/issues/4758)
 * Enhancement - Workflow to check Conventional Commits: [#4759](https://github.com/owncloud/android/pull/4759)
 * Enhancement - QA Content Provider: [#4776](https://github.com/owncloud/android/pull/4776)
+* Enhancement - Workflow to validate source strings: [#4807](https://github.com/owncloud/android/pull/4807)
 
 ## Details
 
@@ -220,6 +221,13 @@ ownCloud admins and users.
    the sharing preferences with testing purposes.
 
    https://github.com/owncloud/android/pull/4776
+
+* Enhancement - Workflow to validate source strings: [#4807](https://github.com/owncloud/android/pull/4807)
+
+   A new workflow has been added to validate the source strings and prevent errors
+   in translation CI system from the first step
+
+   https://github.com/owncloud/android/pull/4807
 
 # Changelog for ownCloud Android Client [4.7.0] (2025-11-17)
 
