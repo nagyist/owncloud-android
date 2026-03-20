@@ -351,7 +351,6 @@
     <string name="auth_expired_basic_auth_toast">현재 암호를 입력하십시오</string>
     <string name="auth_connecting_auth_server">인증 서버에 연결하는 중…</string>
     <string name="auth_unsupported_auth_method">서버에서 이 인증 방법을 지원하지 않음</string>
-    <string name="auth_fail_get_user_name">당신의 서버는 정확한 사용자의 아이디를 반환하지 않습니다. 관리자에게 문의하세요.</string>
     <string name="auth_can_not_auth_against_server">이 서버에 인증할 수 없음</string>
     <string name="auth_account_does_not_exist">아직 장치에 계정이 없음</string>
 
@@ -455,7 +454,6 @@
     <string name="get_shares_error">서버에서 공유를 가져올 수 없음</string>
     <string name="get_sharees_error">서버에서 사용자 및 그룹을 가져올 수 없음</string>
     <string name="get_capabilities_error">서버에서 기능을 가져올 수 없음</string>
-    <string name="share_link_no_support_share_api">서버에서 공유가 활성화되지 않았습니다. 시스템 관리자에게 연락하십시오.</string>
     <string name="share_link_file_error">이 파일 또는 폴더를 공유할 수 없습니다</string>
     <string name="unshare_link_file_error">이 파일 또는 폴더의 공유를 해제할 수 없습니다</string>
     <string name="update_link_file_error">이 파일 또는 폴더를 업데이트할 수 없습니다</string>
@@ -592,7 +590,6 @@
     <string name="share_remote_clarification">%1$s(원격)</string>
     <string name="share_known_remote_clarification">%1$s(%2$s에서)</string>
 
-    <string name="share_sharee_unavailable">클라이언트에서 사용자간 공유를 사용하려면 서버를 업그레이드해야 합니다.\n      \n시스템 관리자에게 문의하십시오.</string>
     <string name="share_privilege_can_share">공유 가능</string>
     <string name="share_privilege_can_edit">편집 가능</string>
     <string name="share_privilege_can_edit_create">생성</string>

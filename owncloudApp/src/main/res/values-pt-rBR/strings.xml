@@ -365,7 +365,6 @@
     <string name="auth_expired_basic_auth_toast">Por favor, digite a senha atual</string>
     <string name="auth_connecting_auth_server">Conectando ao servidor de autenticação ...</string>
     <string name="auth_unsupported_auth_method">O servidor não suporta este método de autenticação</string>
-    <string name="auth_fail_get_user_name">Seu servidor não está retornando um ID de usuário correto. Entre em contato com um administrador.\n\t</string>
     <string name="auth_can_not_auth_against_server">Não é possível obter autenticação neste servidor</string>
     <string name="auth_account_does_not_exist">Conta ainda não existe no dispositivo</string>
 
@@ -473,7 +472,6 @@
     <string name="get_shares_error">Não foi possível recuperar os compartilhamentos do servidor</string>
     <string name="get_sharees_error">Não foi possível recuperar usuários e grupos do servidor</string>
     <string name="get_capabilities_error">Não foi possível recuperar os recursos do servidor</string>
-    <string name="share_link_no_support_share_api">Desculpe, o compartilhamento não está habilitado em seu servidor. Entre em contato com seu \n⇥⇥ administrador.</string>
     <string name="share_link_file_error">Não foi possível compartilhar esse arquivo ou pasta</string>
     <string name="unshare_link_file_error">Não foi possível desfazer o compartilhamento desse arquivo ou pasta</string>
     <string name="update_link_file_error">Não foi possível atualizar esse arquivo ou pasta</string>
@@ -611,7 +609,6 @@
     <string name="share_remote_clarification">%1$s (remoto)</string>
     <string name="share_known_remote_clarification">%1$s ( em %2$s )</string>
 
-    <string name="share_sharee_unavailable">Desculpe, a versão do seu servidor não permite o compartilhamento com usuários dentro de clientes. \nPorfavor entre em contato com seu administrador</string>
     <string name="share_privilege_can_share">pode compartilhar</string>
     <string name="share_privilege_can_edit">pode editar</string>
     <string name="share_privilege_can_edit_create">criar</string>
@@ -828,6 +825,7 @@
     <string name="create_space_dialog_gb_unit">GB</string>
     <string name="create_space_dialog_empty_error">O nome do espaço não deve estar vazio</string>
     <string name="create_space_dialog_length_error">O nome do espaço não deve ter mais de 255 caracteres</string>
+    <string name="create_space_dialog_characters_error">Caracteres proibidos: / \\ . : \? * \" \' &gt; &lt; |</string>
     <string name="create_space_dialog_quota_empty_error">A cota de espaço não deve estar vazia</string>
     <string name="create_space_dialog_quota_zero_error">A cota de espaço deve ser maior que zero</string>
     <string name="create_space_dialog_quota_too_large_error">A cota de espaço não pode exceder 1 PB</string>

@@ -365,7 +365,6 @@
     <string name="auth_expired_basic_auth_toast">現在のパスワードを入力してください</string>
     <string name="auth_connecting_auth_server">認証サーバーに接続中...</string>
     <string name="auth_unsupported_auth_method">サーバーはこの認証方式をサポートしていません</string>
-    <string name="auth_fail_get_user_name">サーバーが正しいユーザーIDを返しません。管理者に連絡してください。</string>
     <string name="auth_can_not_auth_against_server">認証サーバーに接続できません</string>
     <string name="auth_account_does_not_exist">デバイス上にまだアカウントが存在しません</string>
 
@@ -473,7 +472,6 @@
     <string name="get_shares_error">サーバーから共有を取得できませんでした。</string>
     <string name="get_sharees_error">サーバーからユーザーとグループを取得できませんでした。</string>
     <string name="get_capabilities_error">サーバーから能力を取得できませんでした。</string>
-    <string name="share_link_no_support_share_api">すみませんが、サーバーで共有が有効になっていません。\n\t\t管理者に問い合わせてください。</string>
     <string name="share_link_file_error">このファイルまたはフォルダーを共有することができませんでした</string>
     <string name="unshare_link_file_error">このファイルまたはフォルダーの共有を解除することができませんでした</string>
     <string name="update_link_file_error">このファイルまたはフォルダーをアップデートすることができませんでした</string>
@@ -611,7 +609,6 @@
     <string name="share_remote_clarification">%1$s (リモート)</string>
     <string name="share_known_remote_clarification">%1$s ( %2$s で)</string>
 
-    <string name="share_sharee_unavailable">サーバーのバージョンでは、クライアント内のユーザーと共有することができません。\n管理者にお問い合わせください。</string>
     <string name="share_privilege_can_share">共有可</string>
     <string name="share_privilege_can_edit">編集を許可</string>
     <string name="share_privilege_can_edit_create">作成</string>
@@ -834,6 +831,7 @@
     <string name="create_space_dialog_gb_unit">GB</string>
     <string name="create_space_dialog_empty_error">スペース名は空にできません</string>
     <string name="create_space_dialog_length_error">スペース名は255文字以内でなければなりません</string>
+    <string name="create_space_dialog_characters_error">禁止文字: / \\ . : \? * \" \' &gt; &lt; |</string>
     <string name="create_space_dialog_quota_empty_error">スペース割り当ては空にできません</string>
     <string name="create_space_dialog_quota_zero_error">スペース割り当ては0より大きくなければなりません</string>
     <string name="create_space_dialog_quota_too_large_error">スペース割り当ては 1 PBを超えることはできません</string>

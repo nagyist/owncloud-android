@@ -359,7 +359,6 @@
     <string name="auth_expired_basic_auth_toast">Anna nykyinen salasana</string>
     <string name="auth_connecting_auth_server">Yhdistetään tunnistautumispalvelimeen…</string>
     <string name="auth_unsupported_auth_method">Palvelin ei tue tätä tunnistautumistapaa</string>
-    <string name="auth_fail_get_user_name">Palvelimesi ei palauta oikeata käyttäjä-ID:ta. Ota yhteys ylläpitäjään.\n\t</string>
     <string name="auth_can_not_auth_against_server">Tälle palvelimelle ei voi tunnistautua</string>
     <string name="auth_account_does_not_exist">Tiliä ei ole olemassa vielä laitteella</string>
 
@@ -465,7 +464,6 @@
     <string name="get_shares_error">Jaettujen kansioiden hakeminen palvelimelta ei onnistunut.</string>
     <string name="get_sharees_error">Käyttäjien ja ryhmien hakeminen palvelimelta ei onnistunut.</string>
     <string name="get_capabilities_error">Palvelimen suorituskykytietojen hakeminen ei onnistunut.</string>
-    <string name="share_link_no_support_share_api">Jakaminen ei ole käytössä palvelimellasi. Ota yhteys\n\t\tylläpitäjään.</string>
     <string name="share_link_file_error">Tämän tiedoston tai kansion jakaminen ei onnistunut</string>
     <string name="unshare_link_file_error">Tämän tiedoston tai kansion jakamisen poistaminen ei onnistunut</string>
     <string name="update_link_file_error">Tämän tiedoston tai kansion päivittäminen ei onnistunut</string>
@@ -603,7 +601,6 @@
     <string name="share_remote_clarification">%1$s (etä)</string>
     <string name="share_known_remote_clarification">%1$s ( %2$s :sta )</string>
 
-    <string name="share_sharee_unavailable">Pahoittelut, palvelimesi versio ei salli jakamista käyttäjien kesken\n          \nOta yhteys ylläpitäjään</string>
     <string name="share_privilege_can_share">jaa</string>
     <string name="share_privilege_can_edit">voi muokata</string>
     <string name="share_privilege_can_edit_create">luo</string>
