@@ -79,6 +79,7 @@ import com.owncloud.android.domain.files.usecases.SetLastUsageFileUseCase
 import com.owncloud.android.domain.files.usecases.SortFilesUseCase
 import com.owncloud.android.domain.files.usecases.SortFilesWithSyncInfoUseCase
 import com.owncloud.android.domain.files.usecases.UpdateAlreadyDownloadedFilesPathUseCase
+import com.owncloud.android.domain.links.usecases.AddLinkUseCase
 import com.owncloud.android.domain.members.usecases.AddMemberUseCase
 import com.owncloud.android.domain.members.usecases.EditMemberUseCase
 import com.owncloud.android.domain.members.usecases.RemoveMemberUseCase
@@ -316,4 +317,7 @@ val useCaseModule = module {
     factoryOf(::EditMemberUseCase)
     factoryOf(::RemoveMemberUseCase)
     factoryOf(::SearchMembersUseCase)
+
+    // Links
+    factoryOf(::AddLinkUseCase)
 }

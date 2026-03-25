@@ -34,6 +34,7 @@ import com.owncloud.android.databinding.AddPublicLinkFragmentBinding
 import com.owncloud.android.domain.capabilities.model.CapabilityBooleanType
 import com.owncloud.android.domain.capabilities.model.OCCapability
 import com.owncloud.android.domain.links.model.OCLinkType
+import com.owncloud.android.domain.spaces.model.OCSpace
 import com.owncloud.android.extensions.collectLatestLifecycleFlow
 import com.owncloud.android.presentation.capabilities.CapabilityViewModel
 import com.owncloud.android.presentation.common.UIResult
@@ -49,7 +50,12 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     private var _binding: AddPublicLinkFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val spaceLinksViewModel: SpaceLinksViewModel by viewModel()
+    private val spaceLinksViewModel: SpaceLinksViewModel by viewModel {
+        parametersOf(
+            requireArguments().getString(ARG_ACCOUNT_NAME),
+            requireArguments().getParcelable(ARG_CURRENT_SPACE)
+        )
+    }
     private val capabilityViewModel: CapabilityViewModel by viewModel {
         parametersOf(
             requireArguments().getString(ARG_ACCOUNT_NAME)
@@ -85,7 +91,7 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
                 }
 
                 hasPassword = it.selectedPassword != null
-                it.selectedPermission?.let {
+                it.selectedPermission?.let { selectedPermission ->
                     binding.optionsLayout.isVisible = true
                     binding.passwordLayout.apply {
                         passwordValue.isVisible = hasPassword
@@ -95,6 +101,15 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
                         setPasswordSwitch.isChecked = hasPassword
                     }
                     binding.createPublicLinkButton.isEnabled = isPasswordEnforced && hasPassword || !isPasswordEnforced
+
+                    binding.createPublicLinkButton.setOnClickListener {
+                        spaceLinksViewModel.createPublicLink(
+                            binding.publicLinkNameEditText.text.toString().ifEmpty { getString(R.string.public_link_default_display_name) },
+                            selectedPermission,
+                            uiState.selectedExpirationDate,
+                            uiState.selectedPassword,
+                        )
+                    }
                 }
 
                 bindDatePickerDialog(uiState.selectedExpirationDate)
@@ -253,12 +268,15 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     companion object {
         private const val DIALOG_SET_PASSWORD = "DIALOG_SET_PASSWORD"
         private const val ARG_ACCOUNT_NAME = "ARG_ACCOUNT_NAME"
+        private const val ARG_CURRENT_SPACE = "ARG_CURRENT_SPACE"
 
         fun newInstance(
-            accountName: String
+            accountName: String,
+            currentSpace: OCSpace
         ): AddPublicLinkFragment {
             val args = Bundle().apply {
                 putString(ARG_ACCOUNT_NAME, accountName)
+                putParcelable(ARG_CURRENT_SPACE, currentSpace)
             }
             return AddPublicLinkFragment().apply {
                 arguments = args

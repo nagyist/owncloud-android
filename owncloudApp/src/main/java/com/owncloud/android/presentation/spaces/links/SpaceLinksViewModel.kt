@@ -22,14 +22,28 @@ package com.owncloud.android.presentation.spaces.links
 
 import androidx.lifecycle.ViewModel
 import com.owncloud.android.domain.links.model.OCLinkType
+import com.owncloud.android.domain.links.usecases.AddLinkUseCase
+import com.owncloud.android.domain.spaces.model.OCSpace
+import com.owncloud.android.domain.utils.Event
+import com.owncloud.android.extensions.ViewModelExt.runUseCaseWithResult
+import com.owncloud.android.presentation.common.UIResult
+import com.owncloud.android.providers.CoroutinesDispatcherProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class SpaceLinksViewModel: ViewModel() {
+class SpaceLinksViewModel(
+    private val addLinkUseCase: AddLinkUseCase,
+    private val accountName: String,
+    private val space: OCSpace,
+    private val coroutineDispatcherProvider: CoroutinesDispatcherProvider
+): ViewModel() {
 
     private val _addPublicLinkUIState = MutableStateFlow<AddPublicLinkUIState?>(null)
     val addPublicLinkUIState: StateFlow<AddPublicLinkUIState?> = _addPublicLinkUIState
+
+    private val _addLinkResultFlow = MutableStateFlow<Event<UIResult<Unit>>?>(null)
+    val addLinkResultFlow: StateFlow<Event<UIResult<Unit>>?> = _addLinkResultFlow
 
     init {
         _addPublicLinkUIState.value = AddPublicLinkUIState()
@@ -45,6 +59,22 @@ class SpaceLinksViewModel: ViewModel() {
 
     fun onPasswordSelected(password: String?) {
         _addPublicLinkUIState.update { it?.copy(selectedPassword = password) }
+    }
+
+    fun createPublicLink(displayName: String, permission: OCLinkType, expirationDate: String?, password: String?) {
+        runUseCaseWithResult(
+            coroutineDispatcher = coroutineDispatcherProvider.io,
+            flow = _addLinkResultFlow,
+            useCase = addLinkUseCase,
+            useCaseParams = AddLinkUseCase.Params(
+                accountName = accountName,
+                spaceId = space.id,
+                displayName = displayName,
+                type = OCLinkType.toString(permission),
+                expirationDate = expirationDate,
+                password = password
+            )
+        )
     }
 
     data class AddPublicLinkUIState(

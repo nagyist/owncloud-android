@@ -36,6 +36,8 @@ import com.owncloud.android.lib.resources.appregistry.services.AppRegistryServic
 import com.owncloud.android.lib.resources.appregistry.services.OCAppRegistryService
 import com.owncloud.android.lib.resources.files.services.FileService
 import com.owncloud.android.lib.resources.files.services.implementation.OCFileService
+import com.owncloud.android.lib.resources.links.services.LinksService
+import com.owncloud.android.lib.resources.links.services.OCLinksService
 import com.owncloud.android.lib.resources.members.services.MembersService
 import com.owncloud.android.lib.resources.members.services.OCMembersService
 import com.owncloud.android.lib.resources.roles.services.OCRolesService
@@ -175,5 +177,10 @@ class ClientManager(
     fun getMembersService(accountName: String): MembersService {
         val ownCloudClient = getClientForAccount(accountName)
         return OCMembersService(client = ownCloudClient)
+    }
+
+    fun getLinksService(accountName: String): LinksService {
+        val ownCloudClient = getClientForAccount(accountName)
+        return OCLinksService(client = ownCloudClient)
     }
 }

@@ -114,7 +114,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         }
 
         binding.addPublicLinkButton.setOnClickListener {
-            listener?.addPublicLink()
+            listener?.addPublicLink(currentSpace)
         }
     }
 
@@ -304,7 +304,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
     interface SpaceMemberFragmentListener {
         fun addMember(space: OCSpace, spaceMembers: List<SpaceMember>, roles: List<OCRole>, editMode: Boolean, selectedMember: SpaceMember?)
-        fun addPublicLink()
+        fun addPublicLink(space: OCSpace)
         fun copyOrSendPublicLink(publicLinkUrl: String, spaceName: String)
     }
 

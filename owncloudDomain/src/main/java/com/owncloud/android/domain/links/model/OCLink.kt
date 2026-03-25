@@ -38,13 +38,28 @@ enum class OCLinkType {
     CAN_VIEW, CAN_EDIT, CAN_UPLOAD, CREATE_ONLY, INTERNAL;
 
     companion object {
+        private const val CAN_VIEW_TYPE_STRING = "view"
+        private const val CAN_EDIT_TYPE_STRING = "edit"
+        private const val CAN_UPLOAD_TYPE_STRING = "upload"
+        private const val CREATE_ONLY_TYPE_STRING = "createOnly"
+        private const val INTERNAL_TYPE_STRING = "internal"
+
         fun parseFromString(type: String): OCLinkType =
             when (type) {
-                "view" -> CAN_VIEW
-                "edit" -> CAN_EDIT
-                "upload" -> CAN_UPLOAD
-                "createOnly" -> CREATE_ONLY
+                CAN_VIEW_TYPE_STRING -> CAN_VIEW
+                CAN_EDIT_TYPE_STRING -> CAN_EDIT
+                CAN_UPLOAD_TYPE_STRING -> CAN_UPLOAD
+                CREATE_ONLY_TYPE_STRING -> CREATE_ONLY
                 else -> INTERNAL
+            }
+
+        fun toString(type: OCLinkType): String =
+            when (type) {
+                CAN_VIEW -> CAN_VIEW_TYPE_STRING
+                CAN_EDIT -> CAN_EDIT_TYPE_STRING
+                CAN_UPLOAD -> CAN_UPLOAD_TYPE_STRING
+                CREATE_ONLY -> CREATE_ONLY_TYPE_STRING
+                INTERNAL -> INTERNAL_TYPE_STRING
             }
     }
 }

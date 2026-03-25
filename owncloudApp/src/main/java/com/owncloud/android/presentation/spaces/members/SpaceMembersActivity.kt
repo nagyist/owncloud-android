@@ -101,8 +101,8 @@ class SpaceMembersActivity: FileActivity(), SpaceMembersFragment.SpaceMemberFrag
         }
     }
 
-    override fun addPublicLink() {
-        val addPublicLinkFragment = AddPublicLinkFragment.newInstance(account.name)
+    override fun addPublicLink(space: OCSpace) {
+        val addPublicLinkFragment = AddPublicLinkFragment.newInstance(account.name, space)
         val transaction = supportFragmentManager.beginTransaction()
         transaction.apply {
             replace(R.id.members_fragment_container, addPublicLinkFragment, TAG_ADD_PUBLIC_LINK_FRAGMENT)
