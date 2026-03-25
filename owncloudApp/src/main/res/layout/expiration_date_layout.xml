@@ -78,7 +78,7 @@
                 android:id="@+id/expiration_date_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/standard_quarter_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
                 android:contentDescription="@string/content_description_expiration_date_switch"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

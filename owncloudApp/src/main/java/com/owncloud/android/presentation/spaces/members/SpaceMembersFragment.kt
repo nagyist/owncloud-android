@@ -112,6 +112,10 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 selectedMember = null
             )
         }
+
+        binding.addPublicLinkButton.setOnClickListener {
+            listener?.addPublicLink()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -300,6 +304,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
     interface SpaceMemberFragmentListener {
         fun addMember(space: OCSpace, spaceMembers: List<SpaceMember>, roles: List<OCRole>, editMode: Boolean, selectedMember: SpaceMember?)
+        fun addPublicLink()
         fun copyOrSendPublicLink(publicLinkUrl: String, spaceName: String)
     }
 

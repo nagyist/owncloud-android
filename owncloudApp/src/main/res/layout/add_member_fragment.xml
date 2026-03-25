@@ -164,7 +164,7 @@
 
                 <include
                     android:id="@+id/expiration_date_layout"
-                    layout="@layout/expiration_date_item" />
+                    layout="@layout/expiration_date_layout" />
 
             </LinearLayout>
 
