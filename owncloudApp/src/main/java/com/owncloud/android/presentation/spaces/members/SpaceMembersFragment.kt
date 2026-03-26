@@ -42,6 +42,7 @@ import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.extensions.showMessageInSnackbar
 import com.owncloud.android.presentation.common.UIResult
 import com.owncloud.android.presentation.spaces.links.SpaceLinksAdapter
+import com.owncloud.android.presentation.spaces.links.SpaceLinksViewModel
 import com.owncloud.android.utils.DisplayUtils
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.core.parameter.parametersOf
@@ -59,6 +60,12 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         parametersOf(
             requireArguments().getString(ARG_ACCOUNT_NAME),
             requireArguments().getParcelable<OCSpace>(ARG_CURRENT_SPACE)
+        )
+    }
+    private val spaceLinksViewModel: SpaceLinksViewModel by activityViewModel {
+        parametersOf(
+            requireArguments().getString(ARG_ACCOUNT_NAME),
+            requireArguments().getParcelable(ARG_CURRENT_SPACE)
         )
     }
 
@@ -170,6 +177,16 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
     }
 
     private fun subscribeToViewModels() {
+        observeRoles()
+        observeSpaceMembers()
+        observeSpacePermissions()
+        observeAddMemberResult()
+        observeRemoveMemberResult()
+        observeEditMemberResult()
+        observeAddLinkResult()
+    }
+
+    private fun observeRoles() {
         collectLatestLifecycleFlow(spaceMembersViewModel.roles) { event ->
             event?.let {
                 when (val uiResult = event.peekContent()) {
@@ -186,7 +203,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeSpaceMembers() {
         collectLatestLifecycleFlow(spaceMembersViewModel.spaceMembers) { event ->
             event?.let {
                 when (val uiResult = event.peekContent()) {
@@ -213,7 +232,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeSpacePermissions() {
         collectLatestLifecycleFlow(spaceMembersViewModel.spacePermissions) { event ->
             event?.let {
                 when (val uiResult = event.peekContent()) {
@@ -230,7 +251,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeAddMemberResult() {
         collectLatestLifecycleFlow(spaceMembersViewModel.addMemberResultFlow) { event ->
             event?.peekContent()?.let { uiResult ->
                 when (uiResult) {
@@ -243,7 +266,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeRemoveMemberResult() {
         collectLatestLifecycleFlow(spaceMembersViewModel.removeMemberResultFlow) { uiResult ->
             when (uiResult) {
                 is UIResult.Loading -> { }
@@ -257,7 +282,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeEditMemberResult() {
         collectLatestLifecycleFlow(spaceMembersViewModel.editMemberResultFlow) { event ->
             event?.peekContent()?.let { uiResult ->
                 when (uiResult) {
@@ -266,6 +293,18 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                         showMessageInSnackbar(getString(R.string.members_edit_correctly))
                         spaceMembersViewModel.resetViewModel()
                     }
+                    is UIResult.Error -> { }
+                }
+            }
+        }
+    }
+
+    private fun observeAddLinkResult() {
+        collectLatestLifecycleFlow(spaceLinksViewModel.addLinkResultFlow) { event ->
+            event?.peekContent()?.let { uiResult ->
+                when (uiResult) {
+                    is UIResult.Loading -> { }
+                    is UIResult.Success -> showMessageInSnackbar(getString(R.string.public_link_add_correctly))
                     is UIResult.Error -> { }
                 }
             }

@@ -36,9 +36,11 @@ import com.owncloud.android.domain.capabilities.model.OCCapability
 import com.owncloud.android.domain.links.model.OCLinkType
 import com.owncloud.android.domain.spaces.model.OCSpace
 import com.owncloud.android.extensions.collectLatestLifecycleFlow
+import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.presentation.capabilities.CapabilityViewModel
 import com.owncloud.android.presentation.common.UIResult
 import com.owncloud.android.utils.DisplayUtils
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
@@ -50,7 +52,7 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     private var _binding: AddPublicLinkFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val spaceLinksViewModel: SpaceLinksViewModel by viewModel {
+    private val spaceLinksViewModel: SpaceLinksViewModel by activityViewModel {
         parametersOf(
             requireArguments().getString(ARG_ACCOUNT_NAME),
             requireArguments().getParcelable(ARG_CURRENT_SPACE)
@@ -143,6 +145,16 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
                 is UIResult.Loading -> { }
                 is UIResult.Error -> {
                     Timber.e(uiResult.error, "Failed to retrieve server capabilities")
+                }
+            }
+        }
+
+        collectLatestLifecycleFlow(spaceLinksViewModel.addLinkResultFlow) { event ->
+            event?.peekContent()?.let { uiResult ->
+                when (uiResult) {
+                    is UIResult.Loading -> { }
+                    is UIResult.Success -> parentFragmentManager.popBackStack()
+                    is UIResult.Error -> showErrorInSnackbar(R.string.public_link_add_failed, uiResult.error)
                 }
             }
         }
