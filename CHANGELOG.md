@@ -47,6 +47,7 @@ ownCloud admins and users.
 * Bugfix - Conventional commits' action ignores SBOM automatic commits: [#4808](https://github.com/owncloud/android/pull/4808)
 * Change - Migrate tests to the new kotlinx-coroutines-test API: [#4710](https://github.com/owncloud/android/issues/4710)
 * Change - Increase rating dialog delay: [#4744](https://github.com/owncloud/android/pull/4744)
+* Change - Resource leak in CopyAndUploadContentUrisTask: [#4797](https://github.com/owncloud/android/issues/4797)
 * Change - Stream handling and double-close in UploadFileFromContentUriWorker: [#4798](https://github.com/owncloud/android/issues/4798)
 * Change - Update actions dependencies to be compliant with Node24 requirements: [#4804](https://github.com/owncloud/android/pull/4804)
 * Enhancement - Show members of a space: [#4612](https://github.com/owncloud/android/issues/4612)
@@ -56,6 +57,7 @@ ownCloud admins and users.
 * Enhancement - Remove a space member: [#4725](https://github.com/owncloud/android/issues/4725)
 * Enhancement - Workflow to build APK: [#4751](https://github.com/owncloud/android/pull/4751)
 * Enhancement - List links over a space: [#4752](https://github.com/owncloud/android/issues/4752)
+* Enhancement - Add a public link over a space: [#4753](https://github.com/owncloud/android/issues/4753)
 * Enhancement - Copy permanent link of a space: [#4758](https://github.com/owncloud/android/issues/4758)
 * Enhancement - Workflow to check Conventional Commits: [#4759](https://github.com/owncloud/android/pull/4759)
 * Enhancement - QA Content Provider: [#4776](https://github.com/owncloud/android/pull/4776)
@@ -115,6 +117,15 @@ ownCloud admins and users.
    to make it less intrusive for the user.
 
    https://github.com/owncloud/android/pull/4744
+
+* Change - Resource leak in CopyAndUploadContentUrisTask: [#4797](https://github.com/owncloud/android/issues/4797)
+
+   Input and output streams have been closed per URI iteration using
+   try-with-resources to prevent file descriptor and memory leaks when copying
+   multiple content URIs.
+
+   https://github.com/owncloud/android/issues/4797
+   https://github.com/owncloud/android/pull/4806
 
 * Change - Stream handling and double-close in UploadFileFromContentUriWorker: [#4798](https://github.com/owncloud/android/issues/4798)
 
@@ -199,6 +210,14 @@ ownCloud admins and users.
 
    https://github.com/owncloud/android/issues/4752
    https://github.com/owncloud/android/pull/4783
+
+* Enhancement - Add a public link over a space: [#4753](https://github.com/owncloud/android/issues/4753)
+
+   A new option to add public links over a space has been added. It will be only
+   visible for users with proper permissions.
+
+   https://github.com/owncloud/android/issues/4753
+   https://github.com/owncloud/android/pull/4794
 
 * Enhancement - Copy permanent link of a space: [#4758](https://github.com/owncloud/android/issues/4758)
 
