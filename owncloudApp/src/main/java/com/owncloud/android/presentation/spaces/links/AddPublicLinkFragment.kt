@@ -52,15 +52,17 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     private var _binding: AddPublicLinkFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val accountName get() = requireArguments().getString(ARG_ACCOUNT_NAME) ?: ""
+
     private val spaceLinksViewModel: SpaceLinksViewModel by activityViewModel {
         parametersOf(
-            requireArguments().getString(ARG_ACCOUNT_NAME),
+            accountName,
             requireArguments().getParcelable(ARG_CURRENT_SPACE)
         )
     }
     private val capabilityViewModel: CapabilityViewModel by viewModel {
         parametersOf(
-            requireArguments().getString(ARG_ACCOUNT_NAME)
+            accountName
         )
     }
 
@@ -268,7 +270,6 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     }
 
     private fun showPasswordDialog(password: String? = null) {
-        val accountName = requireArguments().getString(ARG_ACCOUNT_NAME) ?: return
         val dialog = SetPasswordDialogFragment.newInstance(accountName, password, this)
         dialog.show(parentFragmentManager, DIALOG_SET_PASSWORD)
     }
