@@ -104,16 +104,7 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
                         setPasswordSwitch.isVisible = !isPasswordEnforced
                         setPasswordSwitch.isChecked = hasPassword
                     }
-                    binding.createPublicLinkButton.isEnabled = isPasswordEnforced && hasPassword || !isPasswordEnforced
-
-                    binding.createPublicLinkButton.setOnClickListener {
-                        spaceLinksViewModel.createPublicLink(
-                            binding.publicLinkNameEditText.text.toString().ifEmpty { getString(R.string.public_link_default_display_name) },
-                            selectedPermission,
-                            uiState.selectedExpirationDate,
-                            uiState.selectedPassword,
-                        )
-                    }
+                    binding.createPublicLinkButton.isEnabled = (isPasswordEnforced && hasPassword) || !isPasswordEnforced
                 }
 
                 bindDatePickerDialog(uiState.selectedExpirationDate)
@@ -180,6 +171,12 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
             setPasswordSwitch.setOnClickListener {
                 if (setPasswordSwitch.isChecked) showPasswordDialog() else removePassword()
             }
+        }
+
+        binding.createPublicLinkButton.setOnClickListener {
+            spaceLinksViewModel.createPublicLink(
+                binding.publicLinkNameEditText.text.toString().ifEmpty { getString(R.string.public_link_default_display_name) }
+            )
         }
     }
 

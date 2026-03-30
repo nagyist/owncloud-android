@@ -61,20 +61,22 @@ class SpaceLinksViewModel(
         _addPublicLinkUIState.update { it?.copy(selectedPassword = password) }
     }
 
-    fun createPublicLink(displayName: String, permission: OCLinkType, expirationDate: String?, password: String?) {
-        runUseCaseWithResult(
-            coroutineDispatcher = coroutineDispatcherProvider.io,
-            flow = _addLinkResultFlow,
-            useCase = addLinkUseCase,
-            useCaseParams = AddLinkUseCase.Params(
-                accountName = accountName,
-                spaceId = space.id,
-                displayName = displayName,
-                type = permission,
-                expirationDate = expirationDate,
-                password = password
+    fun createPublicLink(displayName: String) {
+        _addPublicLinkUIState.value?.selectedPermission?.let {
+            runUseCaseWithResult(
+                coroutineDispatcher = coroutineDispatcherProvider.io,
+                flow = _addLinkResultFlow,
+                useCase = addLinkUseCase,
+                useCaseParams = AddLinkUseCase.Params(
+                    accountName = accountName,
+                    spaceId = space.id,
+                    displayName = displayName,
+                    type = it,
+                    expirationDate = _addPublicLinkUIState.value?.selectedExpirationDate,
+                    password = _addPublicLinkUIState.value?.selectedPassword
+                )
             )
-        )
+        }
     }
 
     data class AddPublicLinkUIState(
