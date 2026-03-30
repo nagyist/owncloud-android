@@ -220,11 +220,12 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                                     spaceMember.roles.contains(OCRoleType.toString(OCRoleType.CAN_MANAGE)) }
                                 spaceMembers = it.members
                                 addMemberRoles = it.roles
-                                val membersForList = if (canReadMembers) spaceMembers else emptyList()
-                                spaceMembersAdapter.setSpaceMembers(membersForList, roles, canRemoveMembers, canEditMembers, numberOfManagers)
-                                val hasLinks = it.links.isNotEmpty()
-                                showOrHideEmptyView(hasLinks)
-                                if (hasLinks) { showSpaceLinks(it.links) }
+                                if (canReadMembers) {
+                                    spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                                    val hasLinks = it.links.isNotEmpty()
+                                    showOrHideEmptyView(hasLinks)
+                                    if (hasLinks) { showSpaceLinks(it.links) }
+                                }
                                 binding.indeterminateProgressBar.isVisible = false
                             }
                         }
@@ -246,6 +247,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                     is UIResult.Success -> {
                         uiResult.data?.let { spacePermissions ->
                             checkPermissions(spacePermissions)
+                            if (canReadMembers) {
+                                spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                            }
                         }
                     }
                     is UIResult.Loading -> { }
@@ -325,12 +329,10 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         canReadMembers = DRIVES_READ_PERMISSION in spacePermissions
         binding.apply {
             addMemberButton.isVisible = hasCreatePermission
-            addPublicLinkButton.isVisible = hasCreatePermission && canReadMembers
+            addPublicLinkButton.isVisible = hasCreatePermission
             membersListSection.isVisible = canReadMembers
             publicLinksSection.isVisible = canReadMembers
         }
-        val membersForList = if (canReadMembers) spaceMembers else emptyList()
-        spaceMembersAdapter.setSpaceMembers(membersForList, roles, canRemoveMembers, canEditMembers, numberOfManagers)
     }
 
     private fun showOrHideEmptyView(hasLinks: Boolean) {
