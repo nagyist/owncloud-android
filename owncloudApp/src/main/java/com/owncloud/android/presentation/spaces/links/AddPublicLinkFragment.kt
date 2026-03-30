@@ -31,7 +31,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.owncloud.android.R
 import com.owncloud.android.databinding.AddPublicLinkFragmentBinding
-import com.owncloud.android.domain.capabilities.model.CapabilityBooleanType
 import com.owncloud.android.domain.capabilities.model.OCCapability
 import com.owncloud.android.domain.links.model.OCLinkType
 import com.owncloud.android.domain.spaces.model.OCSpace
@@ -198,25 +197,8 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
             selectedRadioButton.isChecked = true
         }
         val selectedPermission = selectedRadioButton.tag as OCLinkType
-        checkPasswordEnforced(selectedPermission)
+        isPasswordEnforced = capabilityViewModel.checkPasswordEnforced(selectedPermission, capabilities)
         spaceLinksViewModel.onPermissionSelected(selectedPermission)
-    }
-
-    private fun checkPasswordEnforced(selectedPermission: OCLinkType) {
-        isPasswordEnforced = when (selectedPermission) {
-            OCLinkType.CAN_VIEW -> {
-                capabilities?.filesSharingPublicPasswordEnforcedReadOnly == CapabilityBooleanType.TRUE
-            }
-            OCLinkType.CAN_EDIT -> {
-                capabilities?.filesSharingPublicPasswordEnforcedReadWrite == CapabilityBooleanType.TRUE
-            }
-            OCLinkType.CREATE_ONLY -> {
-                capabilities?.filesSharingPublicPasswordEnforcedUploadOnly == CapabilityBooleanType.TRUE
-            }
-            else -> {
-                true
-            }
-        }
     }
 
     private fun bindDatePickerDialog(expirationDate: String?) {
