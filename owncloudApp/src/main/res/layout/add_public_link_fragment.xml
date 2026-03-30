@@ -37,27 +37,19 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/standard_padding">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/public_link_name_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:background="@color/actionbar_start_color">
-
-                <TextView
-                    android:id="@+id/public_link_name_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="@dimen/standard_half_margin"
-                    android:gravity="center_vertical"
-                    android:text="@string/global_name"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:accessibilityHeading="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/standard_half_padding"
+                android:paddingEnd="@dimen/standard_half_padding"
+                android:background="@color/actionbar_start_color"
+                android:text="@string/global_name"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:accessibilityHeading="true"/>
 
             <EditText
                 android:id="@+id/public_link_name_edit_text"
@@ -69,27 +61,19 @@
                 android:maxLines="1"
                 android:maxLength="255"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/permissions_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:background="@color/actionbar_start_color">
-
-                <TextView
-                    android:id="@+id/permissions_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="@dimen/standard_half_margin"
-                    android:gravity="center_vertical"
-                    android:text="@string/members_permissions"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:accessibilityHeading="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/standard_half_padding"
+                android:paddingEnd="@dimen/standard_half_padding"
+                android:background="@color/actionbar_start_color"
+                android:text="@string/members_permissions"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:accessibilityHeading="true"/>
 
             <include
                 android:id="@+id/public_link_permissions"
@@ -103,28 +87,19 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/options_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:background="@color/actionbar_start_color">
-
-                    <TextView
-                        android:id="@+id/options_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/standard_half_margin"
-                        android:gravity="center"
-                        android:text="@string/members_options"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:accessibilityHeading="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/standard_half_padding"
+                    android:paddingEnd="@dimen/standard_half_padding"
+                    android:background="@color/actionbar_start_color"
+                    android:text="@string/members_options"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:accessibilityHeading="true"/>
 
                 <include
                     android:id="@+id/password_layout"
