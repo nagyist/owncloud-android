@@ -21,7 +21,6 @@
 package com.owncloud.android.data.links.repository
 
 import com.owncloud.android.data.links.datasources.RemoteLinksDataSource
-import com.owncloud.android.domain.links.model.OCLinkType
 import com.owncloud.android.testutil.OC_ACCOUNT_NAME
 import com.owncloud.android.testutil.OC_SPACE_PROJECT_WITH_IMAGE
 import com.owncloud.android.testutil.SPACE_MEMBERS
@@ -44,7 +43,7 @@ class OCLinksRepositoryTest {
                 accountName = OC_ACCOUNT_NAME,
                 spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
                 displayName = SPACE_MEMBERS.links[0].displayName,
-                type = OCLinkType.toString(SPACE_MEMBERS.links[0].type),
+                type = SPACE_MEMBERS.links[0].type,
                 expirationDate = SPACE_MEMBERS.links[0].expirationDateTime,
                 password = password
             )
@@ -54,7 +53,7 @@ class OCLinksRepositoryTest {
             accountName = OC_ACCOUNT_NAME,
             spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
             displayName = SPACE_MEMBERS.links[0].displayName,
-            type = OCLinkType.toString(SPACE_MEMBERS.links[0].type),
+            type = SPACE_MEMBERS.links[0].type,
             expirationDate = SPACE_MEMBERS.links[0].expirationDateTime,
             password = password
         )
@@ -64,7 +63,7 @@ class OCLinksRepositoryTest {
                 accountName = OC_ACCOUNT_NAME,
                 spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
                 displayName = SPACE_MEMBERS.links[0].displayName,
-                type = OCLinkType.toString(SPACE_MEMBERS.links[0].type),
+                type = SPACE_MEMBERS.links[0].type,
                 expirationDate = SPACE_MEMBERS.links[0].expirationDateTime,
                 password = password
             )

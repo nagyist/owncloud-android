@@ -66,7 +66,7 @@ class OCRemoteLinksDataSourceTest {
             accountName = OC_ACCOUNT_NAME,
             spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
             displayName = SPACE_MEMBERS.links[0].displayName,
-            type = OCLinkType.toString(SPACE_MEMBERS.links[0].type),
+            type = SPACE_MEMBERS.links[0].type,
             expirationDate = SPACE_MEMBERS.links[0].expirationDateTime,
             password = password
         )
