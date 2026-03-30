@@ -28,6 +28,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
@@ -70,7 +71,7 @@ class SetPasswordDialogFragment: DialogFragment() {
             binding.passwordValue.setText(it)
         }
 
-        capabilityViewModel.capabilities.observe(viewLifecycleOwner) { event->
+        capabilityViewModel.capabilities.observe(viewLifecycleOwner) { event ->
             when (val uiResult = event.peekContent()) {
                 is UIResult.Success -> {
                     passwordPolicy = uiResult.data?.passwordPolicy
@@ -108,7 +109,7 @@ class SetPasswordDialogFragment: DialogFragment() {
 
         binding.copyPasswordButton.setOnClickListener {
             val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("Public link", binding.passwordValue.text.toString())
+            val clip = ClipData.newPlainText(getString(R.string.auth_password), binding.passwordValue.text.toString())
             clipboard.setPrimaryClip(clip)
         }
 
@@ -141,9 +142,9 @@ class SetPasswordDialogFragment: DialogFragment() {
                 hasMinCharacters = password.length >= minCharacters
                 updateRequirement(
                     hasRequirement = hasMinCharacters,
-                    layout = binding.passwordPolicyMinCharacters,
-                    textView = binding.passwordPolicyMinCharactersText,
-                    textViewIcon = binding.passwordPolicyMinCharactersIcon,
+                    layout = binding.passwordPolicyMinCharacters.passwordPolicyLayout,
+                    textView = binding.passwordPolicyMinCharacters.passwordPolicyText,
+                    textViewIcon = binding.passwordPolicyMinCharacters.passwordPolicyIcon,
                     text = getString(R.string.password_policy_min_characters, passwordPolicy.minCharacters)
                 )
             }
@@ -154,9 +155,9 @@ class SetPasswordDialogFragment: DialogFragment() {
                 hasMaxCharacters = password.length <= maxCharacters
                 updateRequirement(
                     hasRequirement = hasMaxCharacters,
-                    layout = binding.passwordPolicyMaxCharacters,
-                    textView = binding.passwordPolicyMaxCharactersText,
-                    textViewIcon = binding.passwordPolicyMaxCharactersIcon,
+                    layout = binding.passwordPolicyMaxCharacters.passwordPolicyLayout,
+                    textView = binding.passwordPolicyMaxCharacters.passwordPolicyText,
+                    textViewIcon = binding.passwordPolicyMaxCharacters.passwordPolicyIcon,
                     text = getString(R.string.password_policy_max_characters, passwordPolicy.maxCharacters)
                 )
             }
@@ -167,9 +168,9 @@ class SetPasswordDialogFragment: DialogFragment() {
                 hasUpperCase = password.count { it.isUpperCase() } >= minUppercaseCharacters
                 updateRequirement(
                     hasRequirement = hasUpperCase,
-                    layout = binding.passwordPolicyUpperCharacters,
-                    textView = binding.passwordPolicyUpperCharactersText,
-                    textViewIcon = binding.passwordPolicyUpperCharactersIcon,
+                    layout = binding.passwordPolicyUpperCharacters.passwordPolicyLayout,
+                    textView = binding.passwordPolicyUpperCharacters.passwordPolicyText,
+                    textViewIcon = binding.passwordPolicyUpperCharacters.passwordPolicyIcon,
                     text = getString(R.string.password_policy_uppercase_characters, passwordPolicy.minUppercaseCharacters)
                 )
             }
@@ -180,9 +181,9 @@ class SetPasswordDialogFragment: DialogFragment() {
                 hasLowerCase = password.count { it.isLowerCase() } >= minLowercaseCharacters
                 updateRequirement(
                     hasRequirement = hasLowerCase,
-                    layout = binding.passwordPolicyLowerCaseCharacters,
-                    textView = binding.passwordPolicyLowerCaseCharactersText,
-                    textViewIcon = binding.passwordPolicyLowerCaseCharactersIcon,
+                    layout = binding.passwordPolicyLowerCaseCharacters.passwordPolicyLayout,
+                    textView = binding.passwordPolicyLowerCaseCharacters.passwordPolicyText,
+                    textViewIcon = binding.passwordPolicyLowerCaseCharacters.passwordPolicyIcon,
                     text = getString(R.string.password_policy_lowercase_characters, passwordPolicy.minLowercaseCharacters)
                 )
             }
@@ -193,9 +194,9 @@ class SetPasswordDialogFragment: DialogFragment() {
                 hasSpecialCharacter = password.count { SPECIALS_CHARACTERS.contains(it) } >= minSpecialCharacters
                 updateRequirement(
                     hasRequirement = hasSpecialCharacter,
-                    layout = binding.passwordPolicyMinSpecialCharacters,
-                    textView = binding.passwordPolicyMinSpecialCharactersText,
-                    textViewIcon = binding.passwordPolicyMinSpecialCharactersIcon,
+                    layout = binding.passwordPolicyMinSpecialCharacters.passwordPolicyLayout,
+                    textView = binding.passwordPolicyMinSpecialCharacters.passwordPolicyText,
+                    textViewIcon = binding.passwordPolicyMinSpecialCharacters.passwordPolicyIcon,
                     text = getString(R.string.password_policy_min_special_character, passwordPolicy.minSpecialCharacters, SPECIALS_CHARACTERS)
                 )
             }
@@ -206,9 +207,9 @@ class SetPasswordDialogFragment: DialogFragment() {
                 hasDigit = password.count { it.isDigit() } >= minDigits
                 updateRequirement(
                     hasRequirement = hasDigit,
-                    layout = binding.passwordPolicyMinDigits,
-                    textView = binding.passwordPolicyMinDigitsText,
-                    textViewIcon = binding.passwordPolicyMinDigitsIcon,
+                    layout = binding.passwordPolicyMinDigits.passwordPolicyLayout,
+                    textView = binding.passwordPolicyMinDigits.passwordPolicyText,
+                    textViewIcon = binding.passwordPolicyMinDigits.passwordPolicyIcon,
                     text = getString(R.string.password_policy_min_digits, passwordPolicy.minDigits)
                 )
             }
@@ -219,7 +220,7 @@ class SetPasswordDialogFragment: DialogFragment() {
         enableButton(binding.copyPasswordButton, allConditionsCheck)
     }
 
-    private fun updateRequirement(hasRequirement: Boolean, layout: View, textView: TextView, textViewIcon: TextView, text: String) {
+    private fun updateRequirement(hasRequirement: Boolean, layout: View, textView: TextView, textViewIcon: ImageView, text: String) {
         val textColor = if (hasRequirement) R.color.success else R.color.warning
         val drawable = if (hasRequirement) R.drawable.ic_check_password_policy else R.drawable.ic_cross_warning_password_policy
 
@@ -228,7 +229,7 @@ class SetPasswordDialogFragment: DialogFragment() {
             setText(text)
             setTextColor(ContextCompat.getColor(context, textColor))
         }
-        textViewIcon.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, 0, 0, 0)
+        textViewIcon.setImageResource(drawable)
     }
 
     private fun enableButton(button: AppCompatButton, enable: Boolean) {
