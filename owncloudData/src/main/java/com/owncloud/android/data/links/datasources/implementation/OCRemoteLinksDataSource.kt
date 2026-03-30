@@ -23,12 +23,15 @@ package com.owncloud.android.data.links.datasources.implementation
 import com.owncloud.android.data.ClientManager
 import com.owncloud.android.data.executeRemoteOperation
 import com.owncloud.android.data.links.datasources.RemoteLinksDataSource
+import com.owncloud.android.domain.links.model.OCLinkType
 
 class OCRemoteLinksDataSource(
     private val clientManager: ClientManager
 ): RemoteLinksDataSource {
 
-    override fun addLink(accountName: String, spaceId: String, displayName: String, type: String, expirationDate: String?, password: String?) {
-        executeRemoteOperation { clientManager.getLinksService(accountName).addLink(spaceId, displayName, type, expirationDate, password) }
+    override fun addLink(accountName: String, spaceId: String, displayName: String, type: OCLinkType, expirationDate: String?, password: String?) {
+        executeRemoteOperation {
+            clientManager.getLinksService(accountName).addLink(spaceId, displayName, OCLinkType.toString(type), expirationDate, password)
+        }
     }
 }

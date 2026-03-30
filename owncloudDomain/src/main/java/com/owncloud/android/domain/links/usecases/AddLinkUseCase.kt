@@ -22,6 +22,7 @@ package com.owncloud.android.domain.links.usecases
 
 import com.owncloud.android.domain.BaseUseCaseWithResult
 import com.owncloud.android.domain.links.LinksRepository
+import com.owncloud.android.domain.links.model.OCLinkType
 
 class AddLinkUseCase(
     private val linksRepository: LinksRepository
@@ -35,7 +36,7 @@ class AddLinkUseCase(
         val accountName: String,
         val spaceId: String,
         val displayName: String,
-        val type: String,
+        val type: OCLinkType,
         val expirationDate: String?,
         val password: String?
     )

@@ -70,7 +70,7 @@ class SpaceLinksViewModel(
                 accountName = accountName,
                 spaceId = space.id,
                 displayName = displayName,
-                type = OCLinkType.toString(permission),
+                type = permission,
                 expirationDate = expirationDate,
                 password = password
             )

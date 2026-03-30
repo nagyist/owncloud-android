@@ -22,12 +22,13 @@ package com.owncloud.android.data.links.repository
 
 import com.owncloud.android.data.links.datasources.RemoteLinksDataSource
 import com.owncloud.android.domain.links.LinksRepository
+import com.owncloud.android.domain.links.model.OCLinkType
 
 class OCLinksRepository(
     private val remoteLinksDataSource: RemoteLinksDataSource
 ): LinksRepository {
 
-    override fun addLink(accountName: String, spaceId: String, displayName: String, type: String, expirationDate: String?, password: String?) {
+    override fun addLink(accountName: String, spaceId: String, displayName: String, type: OCLinkType, expirationDate: String?, password: String?) {
         remoteLinksDataSource.addLink(accountName, spaceId, displayName, type, expirationDate, password)
     }
 }

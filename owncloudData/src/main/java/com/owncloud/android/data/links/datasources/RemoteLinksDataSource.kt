@@ -20,6 +20,8 @@
 
 package com.owncloud.android.data.links.datasources
 
+import com.owncloud.android.domain.links.model.OCLinkType
+
 interface RemoteLinksDataSource {
-    fun addLink(accountName: String, spaceId: String, displayName: String, type: String, expirationDate: String?, password: String?)
+    fun addLink(accountName: String, spaceId: String, displayName: String, type: OCLinkType, expirationDate: String?, password: String?)
 }
