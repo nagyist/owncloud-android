@@ -187,7 +187,11 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     }
 
     override fun onSetPassword(password: String) {
-        spaceLinksViewModel.onPasswordSelected(password)
+        val normalizedPassword = password.ifBlank { null }
+        if (!isPasswordEnforced && normalizedPassword == null) {
+            binding.passwordLayout.setPasswordSwitch.isChecked = false
+        }
+        spaceLinksViewModel.onPasswordSelected(normalizedPassword)
     }
 
     private fun selectRadioButton(selectedRadioButton: RadioButton) {
