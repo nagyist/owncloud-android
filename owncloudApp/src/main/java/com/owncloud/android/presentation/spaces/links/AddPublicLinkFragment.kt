@@ -35,6 +35,7 @@ import com.owncloud.android.domain.capabilities.model.OCCapability
 import com.owncloud.android.domain.links.model.OCLinkType
 import com.owncloud.android.domain.spaces.model.OCSpace
 import com.owncloud.android.extensions.collectLatestLifecycleFlow
+import com.owncloud.android.extensions.hideSoftKeyboard
 import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.presentation.capabilities.CapabilityViewModel
 import com.owncloud.android.presentation.common.UIResult
@@ -190,6 +191,7 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     }
 
     private fun selectRadioButton(selectedRadioButton: RadioButton) {
+        hideKeyboardAndClearFocus()
         binding.publicLinkPermissions.apply {
             canViewPublicLinkRadioButton.isChecked = false
             canEditPublicLinkRadioButton.isChecked = false
@@ -203,6 +205,7 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
 
     private fun bindDatePickerDialog(expirationDate: String?) {
         binding.expirationDateLayout.expirationDateSwitch.setOnCheckedChangeListener { _, isChecked ->
+            hideKeyboardAndClearFocus()
             if (isChecked) {
                 openDatePickerDialog(expirationDate)
             } else {
@@ -249,12 +252,19 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
     }
 
     private fun showPasswordDialog(password: String? = null) {
+        binding.publicLinkNameEditText.clearFocus()
         val dialog = SetPasswordDialogFragment.newInstance(accountName, password, this)
         dialog.show(parentFragmentManager, DIALOG_SET_PASSWORD)
     }
 
     private fun removePassword() {
+        hideKeyboardAndClearFocus()
         spaceLinksViewModel.onPasswordSelected(null)
+    }
+
+    private fun hideKeyboardAndClearFocus() {
+        hideSoftKeyboard()
+        binding.publicLinkNameEditText.clearFocus()
     }
 
     companion object {
