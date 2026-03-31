@@ -121,6 +121,11 @@ class FileDetailsFragment : FileFragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isMultiPersonal = requireArguments().getBoolean(ARG_IS_MULTIPERSONAL)

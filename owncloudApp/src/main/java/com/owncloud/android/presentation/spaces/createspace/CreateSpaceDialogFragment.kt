@@ -45,6 +45,11 @@ class CreateSpaceDialogFragment : DialogFragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentSpace = requireArguments().getParcelable<OCSpace>(ARG_CURRENT_SPACE)
