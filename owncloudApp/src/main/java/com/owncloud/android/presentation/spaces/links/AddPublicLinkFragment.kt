@@ -95,7 +95,7 @@ class AddPublicLinkFragment: Fragment(), SetPasswordDialogFragment.SetPasswordLi
                 }
 
                 hasPassword = it.selectedPassword != null
-                it.selectedPermission?.let { selectedPermission ->
+                it.selectedPermission?.let {
                     binding.optionsLayout.isVisible = true
                     binding.passwordLayout.apply {
                         passwordValue.isVisible = hasPassword
