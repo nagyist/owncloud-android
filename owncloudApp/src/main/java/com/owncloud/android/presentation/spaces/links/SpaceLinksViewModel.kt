@@ -79,6 +79,11 @@ class SpaceLinksViewModel(
         }
     }
 
+    fun resetViewModel() {
+        _addLinkResultFlow.value = null
+        _addPublicLinkUIState.value = AddPublicLinkUIState()
+    }
+
     data class AddPublicLinkUIState(
         val selectedPermission: OCLinkType? = null,
         val selectedExpirationDate: String? = null,

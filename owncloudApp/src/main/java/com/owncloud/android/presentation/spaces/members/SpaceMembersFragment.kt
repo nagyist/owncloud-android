@@ -121,6 +121,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         }
 
         binding.addPublicLinkButton.setOnClickListener {
+            spaceLinksViewModel.resetViewModel()
             listener?.addPublicLink(currentSpace)
         }
     }
@@ -304,7 +305,10 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
             event?.peekContent()?.let { uiResult ->
                 when (uiResult) {
                     is UIResult.Loading -> { }
-                    is UIResult.Success -> showMessageInSnackbar(getString(R.string.public_link_add_correctly))
+                    is UIResult.Success -> {
+                        showMessageInSnackbar(getString(R.string.public_link_add_correctly))
+                        spaceLinksViewModel.resetViewModel()
+                    }
                     is UIResult.Error -> { }
                 }
             }
