@@ -801,8 +801,6 @@
     <string name="content_description_space_name">ຊື່ພື້ນທີ່</string>
     <string name="content_description_space_three_dot_menu">ການດຳເນີນການກັບພື້ນທີ່</string>
     <string name="content_description_space_subtitle">ລາຍລະອຽດພື້ນທີ່</string>
-    <string name="content_description_create_button">ສ້າງ</string>
-    <string name="content_description_cancel_button">ຍົກເລີກ</string>
     <string name="content_description_quota_switch">ຕັ້ງຄ່າໂຄຕ້າ</string>
     <string name="create_shortcut_dialog_title">ສ້າງທາງລັດ</string>
     <string name="create_shortcut_dialog_url">URL</string>

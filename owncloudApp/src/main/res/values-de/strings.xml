@@ -824,8 +824,6 @@
     <string name="content_description_space_name">%1$s Space Name</string>
     <string name="content_description_space_three_dot_menu">%1$s Space Menü</string>
     <string name="content_description_space_subtitle">%1$s Space Untertitel</string>
-    <string name="content_description_create_button">Erstellen-Schaltfläche</string>
-    <string name="content_description_cancel_button">Abbruch-Schaltfläche</string>
     <string name="content_description_quota_switch">Space Kontingent</string>
     <string name="content_description_member_user">Benutzer %1$s</string>
     <string name="content_description_member_group">Gruppe %1$s</string>

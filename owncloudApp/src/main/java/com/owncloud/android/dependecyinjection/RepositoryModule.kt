@@ -28,6 +28,7 @@ import com.owncloud.android.data.authentication.repository.OCAuthenticationRepos
 import com.owncloud.android.data.capabilities.repository.OCCapabilityRepository
 import com.owncloud.android.data.files.repository.OCFileRepository
 import com.owncloud.android.data.folderbackup.repository.OCFolderBackupRepository
+import com.owncloud.android.data.links.repository.OCLinksRepository
 import com.owncloud.android.data.members.repository.OCMembersRepository
 import com.owncloud.android.data.oauth.repository.OCOAuthRepository
 import com.owncloud.android.data.roles.repository.OCRolesRepository
@@ -44,6 +45,7 @@ import com.owncloud.android.domain.authentication.oauth.OAuthRepository
 import com.owncloud.android.domain.automaticuploads.FolderBackupRepository
 import com.owncloud.android.domain.capabilities.CapabilityRepository
 import com.owncloud.android.domain.files.FileRepository
+import com.owncloud.android.domain.links.LinksRepository
 import com.owncloud.android.domain.members.MembersRepository
 import com.owncloud.android.domain.roles.RolesRepository
 import com.owncloud.android.domain.server.ServerInfoRepository
@@ -63,6 +65,7 @@ val repositoryModule = module {
     factoryOf(::OCCapabilityRepository) bind CapabilityRepository::class
     factoryOf(::OCFileRepository) bind FileRepository::class
     factoryOf(::OCFolderBackupRepository) bind FolderBackupRepository::class
+    factoryOf(::OCLinksRepository) bind LinksRepository::class
     factoryOf(::OCMembersRepository) bind MembersRepository::class
     factoryOf(::OCOAuthRepository) bind OAuthRepository::class
     factoryOf(::OCRolesRepository) bind RolesRepository::class

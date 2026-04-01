@@ -806,8 +806,6 @@
     <string name="content_description_space_name">Emër hapësire %1$s</string>
     <string name="content_description_space_three_dot_menu">Menu hapësire %1$s</string>
     <string name="content_description_space_subtitle">Nëntitull hapësire %1$s</string>
-    <string name="content_description_create_button">Buton krijimi</string>
-    <string name="content_description_cancel_button">Buton anulimi</string>
     <string name="content_description_quota_switch">Kuota hapësire</string>
     <string name="content_description_member_user">Përdorues %1$s</string>
     <string name="content_description_member_group">Grup %1$s</string>

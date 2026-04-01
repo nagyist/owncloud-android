@@ -33,6 +33,8 @@ import com.owncloud.android.data.capabilities.datasources.implementation.OCRemot
 import com.owncloud.android.data.capabilities.datasources.mapper.RemoteCapabilityMapper
 import com.owncloud.android.data.files.datasources.RemoteFileDataSource
 import com.owncloud.android.data.files.datasources.implementation.OCRemoteFileDataSource
+import com.owncloud.android.data.links.datasources.RemoteLinksDataSource
+import com.owncloud.android.data.links.datasources.implementation.OCRemoteLinksDataSource
 import com.owncloud.android.data.members.datasources.RemoteMembersDataSource
 import com.owncloud.android.data.members.datasources.implementation.OCRemoteMembersDataSource
 import com.owncloud.android.data.oauth.datasources.RemoteOAuthDataSource
@@ -78,6 +80,7 @@ val remoteDataSourceModule = module {
     singleOf(::OCRemoteAuthenticationDataSource) bind RemoteAuthenticationDataSource::class
     singleOf(::OCRemoteCapabilitiesDataSource) bind RemoteCapabilitiesDataSource::class
     singleOf(::OCRemoteFileDataSource) bind RemoteFileDataSource::class
+    singleOf(::OCRemoteLinksDataSource) bind RemoteLinksDataSource::class
     singleOf(::OCRemoteMembersDataSource) bind RemoteMembersDataSource::class
     singleOf(::OCRemoteOAuthDataSource) bind RemoteOAuthDataSource::class
     singleOf(::OCRemoteRolesDataSource) bind RemoteRolesDataSource::class

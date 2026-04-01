@@ -32,6 +32,7 @@ import com.owncloud.android.domain.roles.model.OCRole
 import com.owncloud.android.domain.spaces.model.OCSpace
 import com.owncloud.android.domain.spaces.model.SpaceMember
 import com.owncloud.android.presentation.common.ShareSheetHelper
+import com.owncloud.android.presentation.spaces.links.AddPublicLinkFragment
 import com.owncloud.android.ui.activity.FileActivity
 import com.owncloud.android.utils.DisplayUtils
 
@@ -100,6 +101,16 @@ class SpaceMembersActivity: FileActivity(), SpaceMembersFragment.SpaceMemberFrag
         }
     }
 
+    override fun addPublicLink(space: OCSpace) {
+        val addPublicLinkFragment = AddPublicLinkFragment.newInstance(account.name, space)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.apply {
+            replace(R.id.members_fragment_container, addPublicLinkFragment, TAG_ADD_PUBLIC_LINK_FRAGMENT)
+            addToBackStack(null)
+            commit()
+        }
+    }
+
     override fun copyOrSendPublicLink(publicLinkUrl: String, spaceName: String) {
         copyOrSendLink(publicLinkUrl, spaceName)
     }
@@ -127,6 +138,7 @@ class SpaceMembersActivity: FileActivity(), SpaceMembersFragment.SpaceMemberFrag
     companion object {
         private const val TAG_SPACE_MEMBERS_FRAGMENT = "SPACE_MEMBERS_FRAGMENT"
         private const val TAG_ADD_MEMBER_FRAGMENT ="ADD_MEMBER_FRAGMENT"
+        private const val TAG_ADD_PUBLIC_LINK_FRAGMENT = "ADD_PUBLIC_LINK_FRAGMENT"
         private const val TYPE_PLAIN = "text/plain"
         private const val KEY_DISPLAY_NAME = "oc_display_name"
         private const val KEY_UUID = "oc_uuid"

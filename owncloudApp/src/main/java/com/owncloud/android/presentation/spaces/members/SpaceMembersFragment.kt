@@ -42,6 +42,7 @@ import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.extensions.showMessageInSnackbar
 import com.owncloud.android.presentation.common.UIResult
 import com.owncloud.android.presentation.spaces.links.SpaceLinksAdapter
+import com.owncloud.android.presentation.spaces.links.SpaceLinksViewModel
 import com.owncloud.android.utils.DisplayUtils
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.core.parameter.parametersOf
@@ -59,6 +60,12 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         parametersOf(
             requireArguments().getString(ARG_ACCOUNT_NAME),
             requireArguments().getParcelable<OCSpace>(ARG_CURRENT_SPACE)
+        )
+    }
+    private val spaceLinksViewModel: SpaceLinksViewModel by activityViewModel {
+        parametersOf(
+            requireArguments().getString(ARG_ACCOUNT_NAME),
+            requireArguments().getParcelable(ARG_CURRENT_SPACE)
         )
     }
 
@@ -111,6 +118,11 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 editMode = false,
                 selectedMember = null
             )
+        }
+
+        binding.addPublicLinkButton.setOnClickListener {
+            spaceLinksViewModel.resetViewModel()
+            listener?.addPublicLink(currentSpace)
         }
     }
 
@@ -166,6 +178,16 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
     }
 
     private fun subscribeToViewModels() {
+        observeRoles()
+        observeSpaceMembers()
+        observeSpacePermissions()
+        observeAddMemberResult()
+        observeRemoveMemberResult()
+        observeEditMemberResult()
+        observeAddLinkResult()
+    }
+
+    private fun observeRoles() {
         collectLatestLifecycleFlow(spaceMembersViewModel.roles) { event ->
             event?.let {
                 when (val uiResult = event.peekContent()) {
@@ -182,7 +204,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeSpaceMembers() {
         collectLatestLifecycleFlow(spaceMembersViewModel.spaceMembers) { event ->
             event?.let {
                 when (val uiResult = event.peekContent()) {
@@ -209,15 +233,15 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeSpacePermissions() {
         collectLatestLifecycleFlow(spaceMembersViewModel.spacePermissions) { event ->
             event?.let {
                 when (val uiResult = event.peekContent()) {
                     is UIResult.Success -> {
                         uiResult.data?.let { spacePermissions ->
-                            binding.addMemberButton.isVisible = DRIVES_CREATE_PERMISSION in spacePermissions
-                            canRemoveMembers = DRIVES_DELETE_PERMISSION in spacePermissions
-                            canEditMembers = DRIVES_UPDATE_PERMISSION in spacePermissions
+                            checkPermissions(spacePermissions)
                             spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
                         }
                     }
@@ -228,7 +252,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeAddMemberResult() {
         collectLatestLifecycleFlow(spaceMembersViewModel.addMemberResultFlow) { event ->
             event?.peekContent()?.let { uiResult ->
                 when (uiResult) {
@@ -241,7 +267,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeRemoveMemberResult() {
         collectLatestLifecycleFlow(spaceMembersViewModel.removeMemberResultFlow) { uiResult ->
             when (uiResult) {
                 is UIResult.Loading -> { }
@@ -255,7 +283,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
 
+    private fun observeEditMemberResult() {
         collectLatestLifecycleFlow(spaceMembersViewModel.editMemberResultFlow) { event ->
             event?.peekContent()?.let { uiResult ->
                 when (uiResult) {
@@ -268,6 +298,31 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                 }
             }
         }
+    }
+
+    private fun observeAddLinkResult() {
+        collectLatestLifecycleFlow(spaceLinksViewModel.addLinkResultFlow) { event ->
+            event?.peekContent()?.let { uiResult ->
+                when (uiResult) {
+                    is UIResult.Loading -> { }
+                    is UIResult.Success -> {
+                        showMessageInSnackbar(getString(R.string.public_link_add_correctly))
+                        spaceLinksViewModel.resetViewModel()
+                    }
+                    is UIResult.Error -> { }
+                }
+            }
+        }
+    }
+
+    private fun checkPermissions(spacePermissions: List<String>) {
+        binding.apply {
+            val hasCreatePermission = DRIVES_CREATE_PERMISSION in spacePermissions
+            addMemberButton.isVisible = hasCreatePermission
+            addPublicLinkButton.isVisible = hasCreatePermission
+        }
+        canRemoveMembers = DRIVES_DELETE_PERMISSION in spacePermissions
+        canEditMembers = DRIVES_UPDATE_PERMISSION in spacePermissions
     }
 
     private fun showOrHideEmptyView(hasLinks: Boolean) {
@@ -292,6 +347,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
     interface SpaceMemberFragmentListener {
         fun addMember(space: OCSpace, spaceMembers: List<SpaceMember>, roles: List<OCRole>, editMode: Boolean, selectedMember: SpaceMember?)
+        fun addPublicLink(space: OCSpace)
         fun copyOrSendPublicLink(publicLinkUrl: String, spaceName: String)
     }
 

@@ -7,7 +7,7 @@
  * @author David Crespo Ríos
  * @author Jorge Aguado Recio
  *
- * Copyright (C) 2025 ownCloud GmbH.
+ * Copyright (C) 2026 ownCloud GmbH.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -55,6 +55,7 @@ import com.owncloud.android.presentation.settings.more.SettingsMoreViewModel
 import com.owncloud.android.presentation.settings.security.SettingsSecurityViewModel
 import com.owncloud.android.presentation.sharing.ShareViewModel
 import com.owncloud.android.presentation.spaces.SpacesListViewModel
+import com.owncloud.android.presentation.spaces.links.SpaceLinksViewModel
 import com.owncloud.android.presentation.spaces.members.SpaceMembersViewModel
 import com.owncloud.android.presentation.transfers.TransfersViewModel
 import com.owncloud.android.ui.ReceiveExternalFilesViewModel
@@ -85,6 +86,7 @@ val viewModelModule = module {
     viewModelOf(::SettingsSecurityViewModel)
     viewModelOf(::SettingsVideoUploadsViewModel)
     viewModelOf(::SettingsViewModel)
+    viewModelOf(::SpaceLinksViewModel)
     viewModelOf(::SpaceMembersViewModel)
     viewModelOf(::FileOperationsViewModel)
 
