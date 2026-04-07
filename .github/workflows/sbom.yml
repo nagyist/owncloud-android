@@ -101,7 +101,7 @@ jobs:
       # Commit the SBOM file only if it differs from master to avoid unnecessary commits
       - name: Commit and push updated SBOM
         if: steps.compare.outputs.no_changes == 'false'
-        uses: GuillaumeFalourd/git-commit-push@205c043bca2f932f7a48a28a8d619ba30eb84ba #v1.3
+        uses: GuillaumeFalourd/git-commit-push@205c043bca2f932f7a48a28a8d619ba30eb84baf #v1.3
         with:
           commit_message: "docs: SBOM updated"
           files: sbom.json

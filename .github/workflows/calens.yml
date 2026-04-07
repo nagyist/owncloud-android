@@ -28,7 +28,7 @@ jobs:
         with:
           target: CHANGELOG.md
       - name: Commit files
-        uses: GuillaumeFalourd/git-commit-push@205c043bca2f932f7a48a28a8d619ba30eb84ba #v1.3
+        uses: GuillaumeFalourd/git-commit-push@205c043bca2f932f7a48a28a8d619ba30eb84baf #v1.3
         with:
           email: devops@owncloud.com
           name: ownClouders
