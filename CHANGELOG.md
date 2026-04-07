@@ -50,6 +50,7 @@ ownCloud admins and users.
 * Change - Resource leak in CopyAndUploadContentUrisTask: [#4797](https://github.com/owncloud/android/issues/4797)
 * Change - Stream handling and double-close in UploadFileFromContentUriWorker: [#4798](https://github.com/owncloud/android/issues/4798)
 * Change - Update actions dependencies to be compliant with Node24 requirements: [#4804](https://github.com/owncloud/android/pull/4804)
+* Change - Actions with SHA commits instead of versions: [#4815](https://github.com/owncloud/android/pull/4815)
 * Enhancement - Show members of a space: [#4612](https://github.com/owncloud/android/issues/4612)
 * Enhancement - Add a member to a space: [#4613](https://github.com/owncloud/android/issues/4613)
 * Enhancement - Set emoji as space image: [#4707](https://github.com/owncloud/android/issues/4707)
@@ -142,6 +143,13 @@ ownCloud admins and users.
    updated to newer versions that support Node24
 
    https://github.com/owncloud/android/pull/4804
+
+* Change - Actions with SHA commits instead of versions: [#4815](https://github.com/owncloud/android/pull/4815)
+
+   Commit SHA references have been added to GitHub Actions workflows to be
+   compliant with new security policies
+
+   https://github.com/owncloud/android/pull/4815
 
 * Enhancement - Show members of a space: [#4612](https://github.com/owncloud/android/issues/4612)
 

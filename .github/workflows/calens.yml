@@ -20,15 +20,15 @@ jobs:
     name: Generate Calens Changelog
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
           persist-credentials: false
       - name: Run Calens
-        uses: actionhippie/calens@v1.12.4
+        uses: actionhippie/calens@244f3e5c328b842a740113859b87bbebf697f63b #v1.13.0
         with:
           target: CHANGELOG.md
       - name: Commit files
-        uses: GuillaumeFalourd/git-commit-push@v1.3
+        uses: GuillaumeFalourd/git-commit-push@205c043bca2f932f7a48a28a8d619ba30eb84baf #v1.3
         with:
           email: devops@owncloud.com
           name: ownClouders
