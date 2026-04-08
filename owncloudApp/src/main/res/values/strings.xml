@@ -752,6 +752,8 @@
     <string name="release_notes_4_8_0_subtitle_spaces_permanent_links">Infinite Scale users can now get a permanent link for a space and share it with other members</string>
     <string name="release_notes_4_8_0_title_space_public_links">Space public links</string>
     <string name="release_notes_4_8_0_subtitle_space_public_links">Infinite Scale users can see all public links of a space and manage them with right permissions</string>
+    <string name="release_notes_4_8_0_title_action_to_copy_or_move_destination_folder">Navigation to target folder</string>
+    <string name="release_notes_4_8_0_subtitle_action_to_copy_or_move_destination_folder">New action to navigate to the destination folder when a file or folder is copied or moved</string>
 
     <!-- Open in web -->
     <string name="ic_action_open_in_web">Open in web</string>
