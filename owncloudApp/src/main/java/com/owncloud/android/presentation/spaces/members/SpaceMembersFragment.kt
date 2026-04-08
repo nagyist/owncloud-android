@@ -77,7 +77,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
     private var addMemberRoles: List<OCRole> = emptyList()
     private var spaceMembers: List<SpaceMember> = emptyList()
     private var listener: SpaceMemberFragmentListener? = null
-    private var canRemoveMembers = false
+    private var canRemoveMembersAndLinks = false
     private var canEditMembers = false
     private var canReadMembers = false
     private var numberOfManagers = 1
@@ -109,7 +109,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
         currentSpace = requireArguments().getParcelable<OCSpace>(ARG_CURRENT_SPACE) ?: return
         savedInstanceState?.let {
-            canRemoveMembers = it.getBoolean(CAN_REMOVE_MEMBERS, false)
+            canRemoveMembersAndLinks = it.getBoolean(CAN_REMOVE_MEMBERS, false)
             canEditMembers = it.getBoolean(CAN_EDIT_MEMBERS, false)
             canReadMembers = it.getBoolean(CAN_READ_MEMBERS, false)
         }
@@ -155,7 +155,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(CAN_REMOVE_MEMBERS, canRemoveMembers)
+        outState.putBoolean(CAN_REMOVE_MEMBERS, canRemoveMembersAndLinks)
         outState.putBoolean(CAN_EDIT_MEMBERS, canEditMembers)
         outState.putBoolean(CAN_READ_MEMBERS, canReadMembers)
     }
@@ -183,6 +183,10 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
     override fun onCopyOrSendPublicLink(publicLinkUrl: String) {
         listener?.copyOrSendPublicLink(publicLinkUrl, currentSpace.name)
+    }
+
+    override fun onRemovePublicLink(publicLinkId: String) {
+
     }
 
     private fun subscribeToViewModels() {
@@ -226,7 +230,13 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                                 spaceMembers = it.members
                                 addMemberRoles = it.roles
                                 if (canReadMembers) {
-                                    spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                                    spaceMembersAdapter.setSpaceMembers(
+                                        spaceMembers = spaceMembers,
+                                        roles = roles,
+                                        canRemoveMembers = canRemoveMembersAndLinks,
+                                        canEditMembers = canEditMembers,
+                                        numberOfManagers = numberOfManagers
+                                    )
                                     val hasLinks = it.links.isNotEmpty()
                                     showOrHideEmptyView(hasLinks)
                                     if (hasLinks) { showSpaceLinks(it.links) }
@@ -253,7 +263,13 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                         uiResult.data?.let { spacePermissions ->
                             checkPermissions(spacePermissions)
                             if (canReadMembers) {
-                                spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                                spaceMembersAdapter.setSpaceMembers(
+                                    spaceMembers = spaceMembers,
+                                    roles = roles,
+                                    canRemoveMembers = canRemoveMembersAndLinks,
+                                    canEditMembers = canEditMembers,
+                                    numberOfManagers = numberOfManagers
+                                )
                             }
                         }
                     }
@@ -329,7 +345,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
 
     private fun checkPermissions(spacePermissions: List<String>) {
         val hasCreatePermission = DRIVES_CREATE_PERMISSION in spacePermissions
-        canRemoveMembers = DRIVES_DELETE_PERMISSION in spacePermissions
+        canRemoveMembersAndLinks = DRIVES_DELETE_PERMISSION in spacePermissions
         canEditMembers = DRIVES_UPDATE_PERMISSION in spacePermissions
         canReadMembers = DRIVES_READ_PERMISSION in spacePermissions
         binding.apply {
@@ -351,13 +367,16 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         val formatter = SimpleDateFormat(DisplayUtils.DATE_FORMAT_ISO, Locale.ROOT).apply {
             timeZone = TimeZone.getTimeZone("UTC")
         }
-        spaceLinksAdapter.setSpaceLinks(spaceLinks.sortedByDescending { spaceLink ->
-            if (spaceLink.createdDateTime.isNotEmpty()) {
-                formatter.parse(spaceLink.createdDateTime)
-            } else {
-                Date(0)
-            }
-        })
+        spaceLinksAdapter.setSpaceLinks(
+            spaceLinks = spaceLinks.sortedByDescending { spaceLink ->
+                if (spaceLink.createdDateTime.isNotEmpty()) {
+                    formatter.parse(spaceLink.createdDateTime)
+                } else {
+                    Date(0)
+                }
+            },
+            canRemoveLinks = canRemoveMembersAndLinks
+        )
     }
 
     interface SpaceMemberFragmentListener {
