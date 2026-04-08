@@ -75,7 +75,7 @@ class SpaceLinksAdapter(
                 contentDescription = holder.itemView.context.getString(R.string.content_description_delete_public_link, spaceLink.displayName)
                 isVisible = canRemoveLinks
                 setOnClickListener {
-                    listener.onRemovePublicLink(spaceLink.id)
+                    listener.onRemovePublicLink(spaceLink.id, spaceLink.displayName)
                 }
             }
         }
@@ -97,6 +97,6 @@ class SpaceLinksAdapter(
 
     interface SpaceLinksAdapterListener {
         fun onCopyOrSendPublicLink(publicLinkUrl: String)
-        fun onRemovePublicLink(publicLinkId: String)
+        fun onRemovePublicLink(publicLinkId: String, publicLinkDisplayName: String)
     }
 }

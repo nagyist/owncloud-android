@@ -22,6 +22,7 @@ package com.owncloud.android.presentation.spaces.members
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ import com.owncloud.android.domain.spaces.model.OCSpace
 import com.owncloud.android.domain.spaces.model.SpaceMember
 import com.owncloud.android.extensions.avoidScreenshotsIfNeeded
 import com.owncloud.android.extensions.collectLatestLifecycleFlow
+import com.owncloud.android.extensions.showAlertDialog
 import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.extensions.showMessageInSnackbar
 import com.owncloud.android.presentation.common.UIResult
@@ -185,8 +187,14 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         listener?.copyOrSendPublicLink(publicLinkUrl, currentSpace.name)
     }
 
-    override fun onRemovePublicLink(publicLinkId: String) {
-
+    override fun onRemovePublicLink(publicLinkId: String, publicLinkDisplayName: String) {
+        showAlertDialog(
+            title = getString(R.string.public_link_remove_dialog_title, publicLinkDisplayName),
+            message = getString(R.string.public_link_remove_dialog_message),
+            positiveButtonText = getString(R.string.common_yes),
+            positiveButtonListener = { _: DialogInterface?, _: Int -> },
+            negativeButtonText = getString(R.string.common_no)
+        )
     }
 
     private fun subscribeToViewModels() {
