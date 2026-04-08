@@ -79,6 +79,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
     private var listener: SpaceMemberFragmentListener? = null
     private var canRemoveMembers = false
     private var canEditMembers = false
+    private var canReadMembers = false
     private var numberOfManagers = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -105,6 +106,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         savedInstanceState?.let {
             canRemoveMembers = it.getBoolean(CAN_REMOVE_MEMBERS, false)
             canEditMembers = it.getBoolean(CAN_EDIT_MEMBERS, false)
+            canReadMembers = it.getBoolean(CAN_READ_MEMBERS, false)
         }
 
         subscribeToViewModels()
@@ -150,6 +152,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         super.onSaveInstanceState(outState)
         outState.putBoolean(CAN_REMOVE_MEMBERS, canRemoveMembers)
         outState.putBoolean(CAN_EDIT_MEMBERS, canEditMembers)
+        outState.putBoolean(CAN_READ_MEMBERS, canReadMembers)
     }
 
     override fun onRemoveMember(spaceMember: SpaceMember) {
@@ -217,10 +220,12 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                                     spaceMember.roles.contains(OCRoleType.toString(OCRoleType.CAN_MANAGE)) }
                                 spaceMembers = it.members
                                 addMemberRoles = it.roles
-                                spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
-                                val hasLinks = it.links.isNotEmpty()
-                                showOrHideEmptyView(hasLinks)
-                                if (hasLinks) { showSpaceLinks(it.links) }
+                                if (canReadMembers) {
+                                    spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                                    val hasLinks = it.links.isNotEmpty()
+                                    showOrHideEmptyView(hasLinks)
+                                    if (hasLinks) { showSpaceLinks(it.links) }
+                                }
                                 binding.indeterminateProgressBar.isVisible = false
                             }
                         }
@@ -242,7 +247,9 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                     is UIResult.Success -> {
                         uiResult.data?.let { spacePermissions ->
                             checkPermissions(spacePermissions)
-                            spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                            if (canReadMembers) {
+                                spaceMembersAdapter.setSpaceMembers(spaceMembers, roles, canRemoveMembers, canEditMembers, numberOfManagers)
+                            }
                         }
                     }
                     is UIResult.Loading -> { }
@@ -316,13 +323,16 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
     }
 
     private fun checkPermissions(spacePermissions: List<String>) {
-        binding.apply {
-            val hasCreatePermission = DRIVES_CREATE_PERMISSION in spacePermissions
-            addMemberButton.isVisible = hasCreatePermission
-            addPublicLinkButton.isVisible = hasCreatePermission
-        }
+        val hasCreatePermission = DRIVES_CREATE_PERMISSION in spacePermissions
         canRemoveMembers = DRIVES_DELETE_PERMISSION in spacePermissions
         canEditMembers = DRIVES_UPDATE_PERMISSION in spacePermissions
+        canReadMembers = DRIVES_READ_PERMISSION in spacePermissions
+        binding.apply {
+            addMemberButton.isVisible = hasCreatePermission
+            addPublicLinkButton.isVisible = hasCreatePermission
+            membersListSection.isVisible = canReadMembers
+            publicLinksSection.isVisible = canReadMembers
+        }
     }
 
     private fun showOrHideEmptyView(hasLinks: Boolean) {
@@ -358,8 +368,10 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         private const val DRIVES_CREATE_PERMISSION = "libre.graph/driveItem/permissions/create"
         private const val DRIVES_DELETE_PERMISSION = "libre.graph/driveItem/permissions/delete"
         private const val DRIVES_UPDATE_PERMISSION = "libre.graph/driveItem/permissions/update"
+        private const val DRIVES_READ_PERMISSION = "libre.graph/driveItem/permissions/read"
         private const val CAN_REMOVE_MEMBERS = "CAN_REMOVE_MEMBERS"
         private const val CAN_EDIT_MEMBERS = "CAN_EDIT_MEMBERS"
+        private const val CAN_READ_MEMBERS = "CAN_READ_MEMBERS"
 
         fun newInstance(
             accountName: String,
