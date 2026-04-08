@@ -192,7 +192,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
             title = getString(R.string.public_link_remove_dialog_title, publicLinkDisplayName),
             message = getString(R.string.public_link_remove_dialog_message),
             positiveButtonText = getString(R.string.common_yes),
-            positiveButtonListener = { _: DialogInterface?, _: Int -> },
+            positiveButtonListener = { _: DialogInterface?, _: Int -> spaceLinksViewModel.removePublicLink(publicLinkId) },
             negativeButtonText = getString(R.string.common_no)
         )
     }
@@ -205,6 +205,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         observeRemoveMemberResult()
         observeEditMemberResult()
         observeAddLinkResult()
+        observeRemoveLinkResult()
     }
 
     private fun observeRoles() {
@@ -346,6 +347,22 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                         spaceLinksViewModel.resetViewModel()
                     }
                     is UIResult.Error -> { }
+                }
+            }
+        }
+    }
+
+    private fun observeRemoveLinkResult() {
+        collectLatestLifecycleFlow(spaceLinksViewModel.removeLinkResultFlow) { uiResult ->
+            when (uiResult) {
+                is UIResult.Loading -> { }
+                is UIResult.Success -> {
+                    showMessageInSnackbar(getString(R.string.public_link_remove_correctly))
+                    spaceMembersViewModel.getSpaceMembers()
+                }
+                is UIResult.Error -> {
+                    Timber.e(uiResult.error, "Failed to remove a public link from space: ${currentSpace.id}")
+                    showErrorInSnackbar(R.string.public_link_remove_failed, uiResult.error)
                 }
             }
         }
