@@ -109,6 +109,7 @@ class SpaceMembersViewModel(
         requiresConnection = true
     )
 
+    // Used to fetch all members and public links of a space
     fun getSpaceMembers() = runUseCaseWithResult(
         coroutineDispatcher = coroutineDispatcherProvider.io,
         flow = _spaceMembers,
