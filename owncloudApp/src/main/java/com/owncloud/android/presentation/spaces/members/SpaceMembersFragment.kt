@@ -87,6 +87,11 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val accountId = requireArguments().getString(ARG_ACCOUNT_ID)

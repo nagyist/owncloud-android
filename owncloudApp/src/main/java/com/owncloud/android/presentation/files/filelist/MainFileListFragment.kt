@@ -1019,8 +1019,8 @@ class MainFileListFragment : Fragment(),
         return args != null && args.getBoolean(ARG_PICKING_A_FOLDER, false)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

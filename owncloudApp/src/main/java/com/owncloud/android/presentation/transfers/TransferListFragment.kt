@@ -124,8 +124,8 @@ class TransferListFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
