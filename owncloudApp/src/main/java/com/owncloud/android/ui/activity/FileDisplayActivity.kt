@@ -813,12 +813,10 @@ class FileDisplayActivity : FileActivity(),
         Timber.v("onResume() start")
         super.onResume()
 
+        updateBottombar(mainFileListFragment?.getCurrentSpace())
         if (mainFileListFragment?.getCurrentSpace()?.isProject == true ||
             (mainFileListFragment?.getCurrentSpace()?.isPersonal == true && isMultiPersonal)) {
-            setCheckedItemAtBottomBar(getMenuItemForFileListOption(FileListOption.SPACES_LIST))
             updateToolbar(null, mainFileListFragment?.getCurrentSpace())
-        } else {
-            setCheckedItemAtBottomBar(getMenuItemForFileListOption(fileListOption))
         }
 
         if (secondFragment == null) {
@@ -1893,7 +1891,18 @@ class FileDisplayActivity : FileActivity(),
 
     override fun onCurrentFolderUpdated(newCurrentFolder: OCFile, currentSpace: OCSpace?) {
         updateToolbar(newCurrentFolder, currentSpace)
+        val newCurrentFolderSpace = spacesListViewModel.spacesList.value.spaces.find { it.id == newCurrentFolder.spaceId }
+        updateBottombar(newCurrentFolderSpace)
         file = newCurrentFolder
+    }
+
+    private fun updateBottombar(currentSpace: OCSpace?) {
+        val bottomBarOption = if (currentSpace?.isProject == true) {
+            FileListOption.SPACES_LIST
+        } else {
+            fileListOption
+        }
+        setCheckedItemAtBottomBar(getMenuItemForFileListOption(bottomBarOption))
     }
 
     override fun onFileClicked(file: OCFile) {
