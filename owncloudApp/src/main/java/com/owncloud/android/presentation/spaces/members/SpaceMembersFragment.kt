@@ -239,13 +239,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                                 spaceMembers = it.members
                                 addMemberRoles = it.roles
                                 if (canReadMembers) {
-                                    spaceMembersAdapter.setSpaceMembers(
-                                        spaceMembers = spaceMembers,
-                                        roles = roles,
-                                        canRemoveMembers = canRemoveMembersAndLinks,
-                                        canEditMembers = canEditMembers,
-                                        numberOfManagers = numberOfManagers
-                                    )
+                                    showSpaceMembers()
                                     val hasLinks = it.links.isNotEmpty()
                                     showOrHideEmptyView(hasLinks)
                                     if (hasLinks) { showSpaceLinks(it.links) }
@@ -272,13 +266,7 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
                         uiResult.data?.let { spacePermissions ->
                             checkPermissions(spacePermissions)
                             if (canReadMembers) {
-                                spaceMembersAdapter.setSpaceMembers(
-                                    spaceMembers = spaceMembers,
-                                    roles = roles,
-                                    canRemoveMembers = canRemoveMembersAndLinks,
-                                    canEditMembers = canEditMembers,
-                                    numberOfManagers = numberOfManagers
-                                )
+                                showSpaceMembers()
                             }
                         }
                     }
@@ -386,6 +374,16 @@ class SpaceMembersFragment : Fragment(), SpaceMembersAdapter.SpaceMembersAdapter
             publicLinksRecyclerView.isVisible = hasLinks
             noPublicLinksMessage.isVisible = !hasLinks
         }
+    }
+
+    private fun showSpaceMembers() {
+        spaceMembersAdapter.setSpaceMembers(
+            spaceMembers = spaceMembers,
+            roles = roles,
+            canRemoveMembers = canRemoveMembersAndLinks,
+            canEditMembers = canEditMembers,
+            numberOfManagers = numberOfManagers
+        )
     }
 
     private fun showSpaceLinks(spaceLinks: List<OCLink>) {
