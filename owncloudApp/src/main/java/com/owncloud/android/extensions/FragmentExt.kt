@@ -51,6 +51,18 @@ fun Fragment.showMessageInSnackbar(
     Snackbar.make(requiredView, message, duration).show()
 }
 
+fun Fragment.showSnackbarWithAction(
+    message: CharSequence,
+    actionText: CharSequence,
+    action: () -> Unit,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
+    val requiredView = view ?: return
+    Snackbar.make(requiredView, message, duration)
+        .setAction(actionText) { action() }
+        .show()
+}
+
 fun Fragment.showAlertDialog(
     title: String,
     message: String,

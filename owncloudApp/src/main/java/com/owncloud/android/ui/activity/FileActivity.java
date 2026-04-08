@@ -58,7 +58,10 @@ import com.owncloud.android.ui.dialog.ConfirmationDialogFragment;
 import com.owncloud.android.ui.dialog.SslUntrustedCertDialog;
 import com.owncloud.android.ui.errorhandling.ErrorMessageAdapter;
 import com.owncloud.android.ui.helpers.FileOperationsHelper;
+import kotlin.Unit;
 import timber.log.Timber;
+
+import static com.owncloud.android.extensions.ActivityExtKt.showSnackbarWithAction;
 
 /**
  * Activity with common behaviour for activities handling {@link OCFile}s in ownCloud {@link Account}s .
@@ -278,18 +281,32 @@ public class FileActivity extends DrawerActivity
                     .setCancelable(false)
                     .show();
         } else {
-            Snackbar.make(findViewById(android.R.id.content), errorMessage, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.auth_oauth_failure_snackbar_action, v ->
-                            requestCredentialsUpdate())
-                    .show();
+            showSnackbarWithAction(
+                    this,
+                    errorMessage,
+                    getString(R.string.auth_oauth_failure_snackbar_action),
+                    () -> {
+                        requestCredentialsUpdate();
+                        return Unit.INSTANCE;
+                    },
+                    Snackbar.LENGTH_INDEFINITE,
+                    android.R.id.content
+            );
         }
     }
 
     protected void showRequestRegainAccess() {
-        Snackbar.make(findViewById(android.R.id.content), R.string.auth_oauth_failure, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.auth_oauth_failure_snackbar_action, v ->
-                        requestCredentialsUpdate())
-                .show();
+        showSnackbarWithAction(
+                this,
+                getString(R.string.auth_oauth_failure),
+                getString(R.string.auth_oauth_failure_snackbar_action),
+                () -> {
+                    requestCredentialsUpdate();
+                    return Unit.INSTANCE;
+                },
+                Snackbar.LENGTH_INDEFINITE,
+                android.R.id.content
+        );
     }
 
     /**
