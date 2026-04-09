@@ -1168,6 +1168,10 @@ class FileDisplayActivity : FileActivity(),
                     val fileListFragment = mainFileListFragment
                         ?: supportFragmentManager.findFragmentById(R.id.left_fragment_container) as? MainFileListFragment
                     fileListFragment?.navigateToFolderId(targetFolderId)
+                    val targetFolderSpace = spacesListViewModel.spacesList.value.spaces.find {
+                        it.id == copyMoveTargetFolder?.spaceId
+                    }
+                    updateBottombar(targetFolderSpace)
                 },
                 layoutId = R.id.list_layout
             )
@@ -1891,8 +1895,6 @@ class FileDisplayActivity : FileActivity(),
 
     override fun onCurrentFolderUpdated(newCurrentFolder: OCFile, currentSpace: OCSpace?) {
         updateToolbar(newCurrentFolder, currentSpace)
-        val newCurrentFolderSpace = spacesListViewModel.spacesList.value.spaces.find { it.id == newCurrentFolder.spaceId }
-        updateBottombar(newCurrentFolderSpace)
         file = newCurrentFolder
     }
 
