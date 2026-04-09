@@ -57,6 +57,7 @@ import com.owncloud.android.extensions.openOCFile
 import com.owncloud.android.extensions.sendDownloadedFilesByShareSheet
 import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.extensions.showMessageInSnackbar
+import com.owncloud.android.extensions.showSnackbarWithAction
 import com.owncloud.android.presentation.authentication.ACTION_UPDATE_EXPIRED_TOKEN
 import com.owncloud.android.presentation.authentication.EXTRA_ACCOUNT
 import com.owncloud.android.presentation.authentication.EXTRA_ACTION
@@ -168,8 +169,10 @@ class FileDetailsFragment : FileFragment() {
             when (uiResult) {
                 is UIResult.Error -> {
                     if (uiResult.error is AccountNotFoundException) {
-                        Snackbar.make(view, getString(R.string.sync_fail_ticker_unauthorized), Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.auth_oauth_failure_snackbar_action) {
+                        showSnackbarWithAction(
+                            message = getString(R.string.sync_fail_ticker_unauthorized),
+                            actionText = getString(R.string.auth_oauth_failure_snackbar_action),
+                            action = {
                                 val updateAccountCredentials = Intent(requireActivity(), LoginActivity::class.java)
                                 updateAccountCredentials.apply {
                                     putExtra(EXTRA_ACCOUNT, fileDetailsViewModel.getAccount())
@@ -177,7 +180,8 @@ class FileDetailsFragment : FileFragment() {
                                     addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
                                 }
                                 startActivity(updateAccountCredentials)
-                            }.show()
+                            },
+                            duration = Snackbar.LENGTH_INDEFINITE)
                     } else {
                         showErrorInSnackbar(R.string.sync_fail_ticker, uiResult.error)
                         fileDetailsViewModel.updateActionInDetailsView(NONE)

@@ -84,6 +84,7 @@ import com.owncloud.android.extensions.parseError
 import com.owncloud.android.extensions.sendDownloadedFilesByShareSheet
 import com.owncloud.android.extensions.showErrorInSnackbar
 import com.owncloud.android.extensions.showMessageInSnackbar
+import com.owncloud.android.extensions.showSnackbarWithAction
 import com.owncloud.android.lib.common.accounts.AccountUtils
 import com.owncloud.android.lib.common.authentication.OwnCloudBearerCredentials
 import com.owncloud.android.lib.common.network.CertificateCombinedException
@@ -180,6 +181,8 @@ class FileDisplayActivity : FileActivity(),
     var fileListOption = FileListOption.ALL_FILES
     private var waitingToSend: OCFile? = null
     private var waitingToOpen: OCFile? = null
+
+    private var copyMoveTargetFolder: OCFile? = null
 
     private var localBroadcastManager: LocalBroadcastManager? = null
 
@@ -707,6 +710,7 @@ class FileDisplayActivity : FileActivity(),
     private fun requestMoveOperation(data: Intent) {
         val folderToMoveAt = data.getParcelableExtra<OCFile>(FolderPickerActivity.EXTRA_FOLDER) ?: return
         val files = data.getParcelableArrayListExtra<OCFile>(FolderPickerActivity.EXTRA_FILES) ?: return
+        copyMoveTargetFolder = folderToMoveAt
         val moveOperation = FileOperation.MoveOperation(
             listOfFilesToMove = files.toList(),
             targetFolder = folderToMoveAt,
@@ -723,6 +727,7 @@ class FileDisplayActivity : FileActivity(),
     private fun requestCopyOperation(data: Intent) {
         val folderToCopyAt = data.getParcelableExtra<OCFile>(FolderPickerActivity.EXTRA_FOLDER) ?: return
         val files = data.getParcelableArrayListExtra<OCFile>(FolderPickerActivity.EXTRA_FILES) ?: return
+        copyMoveTargetFolder = folderToCopyAt
         val copyOperation = FileOperation.CopyOperation(
             listOfFilesToCopy = files.toList(),
             targetFolder = folderToCopyAt,
@@ -808,12 +813,10 @@ class FileDisplayActivity : FileActivity(),
         Timber.v("onResume() start")
         super.onResume()
 
+        updateBottombar(mainFileListFragment?.getCurrentSpace())
         if (mainFileListFragment?.getCurrentSpace()?.isProject == true ||
             (mainFileListFragment?.getCurrentSpace()?.isPersonal == true && isMultiPersonal)) {
-            setCheckedItemAtBottomBar(getMenuItemForFileListOption(FileListOption.SPACES_LIST))
             updateToolbar(null, mainFileListFragment?.getCurrentSpace())
-        } else {
-            setCheckedItemAtBottomBar(getMenuItemForFileListOption(fileListOption))
         }
 
         if (secondFragment == null) {
@@ -1082,6 +1085,9 @@ class FileDisplayActivity : FileActivity(),
                     // Refresh the spaces and update the quota
                     spacesListViewModel.refreshSpacesFromServer()
                 }
+                if (uiResult.data.isNullOrEmpty()) {
+                    showCopyMoveSuccessSnackbar(isCopy = false)
+                }
             }
 
             is UIResult.Error -> {
@@ -1130,6 +1136,9 @@ class FileDisplayActivity : FileActivity(),
 
                 // Refresh the spaces and update the quota
                 spacesListViewModel.refreshSpacesFromServer()
+                if (uiResult.data.isNullOrEmpty()) {
+                    showCopyMoveSuccessSnackbar(isCopy = true)
+                }
             }
 
             is UIResult.Error -> {
@@ -1145,6 +1154,29 @@ class FileDisplayActivity : FileActivity(),
                     )
                 }
             }
+        }
+    }
+
+    private fun showCopyMoveSuccessSnackbar(isCopy: Boolean) {
+        val message = getString(if (isCopy) R.string.copy_file_correctly else R.string.move_file_correctly)
+        val targetFolderId = copyMoveTargetFolder?.id
+        if (targetFolderId != null) {
+            showSnackbarWithAction(
+                message = message,
+                actionText = getString(R.string.go_to_destination_folder),
+                action = {
+                    val fileListFragment = mainFileListFragment
+                        ?: supportFragmentManager.findFragmentById(R.id.left_fragment_container) as? MainFileListFragment
+                    fileListFragment?.navigateToFolderId(targetFolderId)
+                    val targetFolderSpace = spacesListViewModel.spacesList.value.spaces.find {
+                        it.id == copyMoveTargetFolder?.spaceId
+                    }
+                    updateBottombar(targetFolderSpace)
+                },
+                layoutId = R.id.list_layout
+            )
+        } else {
+            showMessageInSnackbar(R.id.list_layout, message)
         }
     }
 
@@ -1864,6 +1896,15 @@ class FileDisplayActivity : FileActivity(),
     override fun onCurrentFolderUpdated(newCurrentFolder: OCFile, currentSpace: OCSpace?) {
         updateToolbar(newCurrentFolder, currentSpace)
         file = newCurrentFolder
+    }
+
+    private fun updateBottombar(currentSpace: OCSpace?) {
+        val bottomBarOption = if (currentSpace?.isProject == true) {
+            FileListOption.SPACES_LIST
+        } else {
+            fileListOption
+        }
+        setCheckedItemAtBottomBar(getMenuItemForFileListOption(bottomBarOption))
     }
 
     override fun onFileClicked(file: OCFile) {
