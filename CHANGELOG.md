@@ -51,6 +51,7 @@ ownCloud admins and users.
 * Change - Stream handling and double-close in UploadFileFromContentUriWorker: [#4798](https://github.com/owncloud/android/issues/4798)
 * Change - Update actions dependencies to be compliant with Node24 requirements: [#4804](https://github.com/owncloud/android/pull/4804)
 * Change - Actions with SHA commits instead of versions: [#4815](https://github.com/owncloud/android/pull/4815)
+* Enhancement - Show destination folder snackbar for copy/move operations: [#4379](https://github.com/owncloud/android/issues/4379)
 * Enhancement - Show members of a space: [#4612](https://github.com/owncloud/android/issues/4612)
 * Enhancement - Add a member to a space: [#4613](https://github.com/owncloud/android/issues/4613)
 * Enhancement - Set emoji as space image: [#4707](https://github.com/owncloud/android/issues/4707)
@@ -59,10 +60,12 @@ ownCloud admins and users.
 * Enhancement - Workflow to build APK: [#4751](https://github.com/owncloud/android/pull/4751)
 * Enhancement - List links over a space: [#4752](https://github.com/owncloud/android/issues/4752)
 * Enhancement - Add a public link over a space: [#4753](https://github.com/owncloud/android/issues/4753)
+* Enhancement - Remove space link: [#4757](https://github.com/owncloud/android/issues/4757)
 * Enhancement - Copy permanent link of a space: [#4758](https://github.com/owncloud/android/issues/4758)
 * Enhancement - Workflow to check Conventional Commits: [#4759](https://github.com/owncloud/android/pull/4759)
 * Enhancement - QA Content Provider: [#4776](https://github.com/owncloud/android/pull/4776)
 * Enhancement - Workflow to validate source strings: [#4807](https://github.com/owncloud/android/pull/4807)
+* Enhancement - Resource leaks in fragment view bindings: [#4813](https://github.com/owncloud/android/issues/4813)
 
 ## Details
 
@@ -151,6 +154,14 @@ ownCloud admins and users.
 
    https://github.com/owncloud/android/pull/4815
 
+* Enhancement - Show destination folder snackbar for copy/move operations: [#4379](https://github.com/owncloud/android/issues/4379)
+
+   A snackbar message has been displayed after copy or move operations with an
+   action button that allows users to quickly navigate to the destination folder.
+
+   https://github.com/owncloud/android/issues/4379
+   https://github.com/owncloud/android/pull/4802
+
 * Enhancement - Show members of a space: [#4612](https://github.com/owncloud/android/issues/4612)
 
    A new option to view all members of a space has been added to the bottom sheet,
@@ -161,10 +172,12 @@ ownCloud admins and users.
    https://github.com/owncloud/android/issues/4612
    https://github.com/owncloud/android/issues/4763
    https://github.com/owncloud/android/issues/4772
+   https://github.com/owncloud/android/issues/4782
    https://github.com/owncloud/android/pull/4728
    https://github.com/owncloud/android/pull/4765
    https://github.com/owncloud/android/pull/4779
    https://github.com/owncloud/android/pull/4784
+   https://github.com/owncloud/android/pull/4809
 
 * Enhancement - Add a member to a space: [#4613](https://github.com/owncloud/android/issues/4613)
 
@@ -227,6 +240,14 @@ ownCloud admins and users.
    https://github.com/owncloud/android/issues/4753
    https://github.com/owncloud/android/pull/4794
 
+* Enhancement - Remove space link: [#4757](https://github.com/owncloud/android/issues/4757)
+
+   A new option to remove space public links from a space has been added. It will
+   be only visible for users with proper permissions.
+
+   https://github.com/owncloud/android/issues/4757
+   https://github.com/owncloud/android/pull/4816
+
 * Enhancement - Copy permanent link of a space: [#4758](https://github.com/owncloud/android/issues/4758)
 
    A new option to copy and share the permanent link of a space has been added next
@@ -255,6 +276,14 @@ ownCloud admins and users.
    in translation CI system from the first step
 
    https://github.com/owncloud/android/pull/4807
+
+* Enhancement - Resource leaks in fragment view bindings: [#4813](https://github.com/owncloud/android/issues/4813)
+
+   View binding references have been cleared in onDestroyView() across fragments to
+   prevent memory leaks when fragment instances outlive their views.
+
+   https://github.com/owncloud/android/issues/4813
+   https://github.com/owncloud/android/pull/4814
 
 # Changelog for ownCloud Android Client [4.7.0] (2025-11-17)
 

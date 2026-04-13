@@ -34,4 +34,10 @@ class OCRemoteLinksDataSource(
             clientManager.getLinksService(accountName).addLink(spaceId, displayName, OCLinkType.toString(type), expirationDate, password)
         }
     }
+
+    override fun removeLink(accountName: String, spaceId: String, linkId: String) {
+        executeRemoteOperation {
+            clientManager.getLinksService(accountName).removeLink(spaceId, linkId)
+        }
+    }
 }

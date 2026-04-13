@@ -23,17 +23,21 @@ package com.owncloud.android.presentation.spaces.links
 import androidx.lifecycle.ViewModel
 import com.owncloud.android.domain.links.model.OCLinkType
 import com.owncloud.android.domain.links.usecases.AddLinkUseCase
+import com.owncloud.android.domain.links.usecases.RemoveLinkUseCase
 import com.owncloud.android.domain.spaces.model.OCSpace
 import com.owncloud.android.domain.utils.Event
 import com.owncloud.android.extensions.ViewModelExt.runUseCaseWithResult
 import com.owncloud.android.presentation.common.UIResult
 import com.owncloud.android.providers.CoroutinesDispatcherProvider
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 class SpaceLinksViewModel(
     private val addLinkUseCase: AddLinkUseCase,
+    private val removeLinkUseCase: RemoveLinkUseCase,
     private val accountName: String,
     private val space: OCSpace,
     private val coroutineDispatcherProvider: CoroutinesDispatcherProvider
@@ -44,6 +48,9 @@ class SpaceLinksViewModel(
 
     private val _addLinkResultFlow = MutableStateFlow<Event<UIResult<Unit>>?>(null)
     val addLinkResultFlow: StateFlow<Event<UIResult<Unit>>?> = _addLinkResultFlow
+
+    private val _removeLinkResultFlow = MutableSharedFlow<UIResult<Unit>>()
+    val removeLinkResultFlow: SharedFlow<UIResult<Unit>> = _removeLinkResultFlow
 
     init {
         _addPublicLinkUIState.value = AddPublicLinkUIState()
@@ -77,6 +84,19 @@ class SpaceLinksViewModel(
                 )
             )
         }
+    }
+
+    fun removePublicLink(linkId: String) {
+        runUseCaseWithResult(
+            coroutineDispatcher = coroutineDispatcherProvider.io,
+            sharedFlow = _removeLinkResultFlow,
+            useCase = removeLinkUseCase,
+            useCaseParams = RemoveLinkUseCase.Params(
+                accountName = accountName,
+                spaceId = space.id,
+                linkId = linkId
+            )
+        )
     }
 
     fun resetViewModel() {

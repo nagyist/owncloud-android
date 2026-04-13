@@ -69,4 +69,29 @@ class OCLinksRepositoryTest {
             )
         }
     }
+
+    @Test
+    fun `removeLink removes a public link from a space correctly`() {
+        every {
+            remoteLinksDataSource.removeLink(
+                accountName = OC_ACCOUNT_NAME,
+                spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
+                linkId = SPACE_MEMBERS.links[0].id
+            )
+        } returns Unit
+
+        ocLinksRepository.removeLink(
+            accountName = OC_ACCOUNT_NAME,
+            spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
+            linkId = SPACE_MEMBERS.links[0].id
+        )
+
+        verify(exactly = 1) {
+            remoteLinksDataSource.removeLink(
+                accountName = OC_ACCOUNT_NAME,
+                spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
+                linkId = SPACE_MEMBERS.links[0].id
+            )
+        }
+    }
 }

@@ -82,4 +82,30 @@ class OCRemoteLinksDataSourceTest {
             )
         }
     }
+
+    @Test
+    fun `removeLink removes a public link from a project space correctly`() {
+        val removeLinkResult = createRemoteOperationResultMock(Unit, isSuccess = true)
+
+        every {
+            ocLinksService.removeLink(
+                spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
+                linkId = SPACE_MEMBERS.links[0].id
+            )
+        } returns removeLinkResult
+
+        ocRemoteLinksDataSource.removeLink(
+            accountName = OC_ACCOUNT_NAME,
+            spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
+            linkId = SPACE_MEMBERS.links[0].id
+        )
+
+        verify(exactly = 1) {
+            clientManager.getLinksService(OC_ACCOUNT_NAME)
+            ocLinksService.removeLink(
+                spaceId = OC_SPACE_PROJECT_WITH_IMAGE.id,
+                linkId = SPACE_MEMBERS.links[0].id
+            )
+        }
+    }
 }

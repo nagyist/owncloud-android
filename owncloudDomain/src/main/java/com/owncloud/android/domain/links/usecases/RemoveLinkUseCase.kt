@@ -18,21 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.owncloud.android.data.links.repository
+package com.owncloud.android.domain.links.usecases
 
-import com.owncloud.android.data.links.datasources.RemoteLinksDataSource
+import com.owncloud.android.domain.BaseUseCaseWithResult
 import com.owncloud.android.domain.links.LinksRepository
-import com.owncloud.android.domain.links.model.OCLinkType
 
-class OCLinksRepository(
-    private val remoteLinksDataSource: RemoteLinksDataSource
-): LinksRepository {
+class RemoveLinkUseCase(
+    private val linksRepository: LinksRepository
+): BaseUseCaseWithResult<Unit, RemoveLinkUseCase.Params>() {
 
-    override fun addLink(accountName: String, spaceId: String, displayName: String, type: OCLinkType, expirationDate: String?, password: String?) {
-        remoteLinksDataSource.addLink(accountName, spaceId, displayName, type, expirationDate, password)
+    override fun run(params: Params) {
+        linksRepository.removeLink(params.accountName, params.spaceId, params.linkId)
     }
 
-    override fun removeLink(accountName: String, spaceId: String, linkId: String) {
-        remoteLinksDataSource.removeLink(accountName, spaceId, linkId)
-    }
+    data class Params(
+        val accountName: String,
+        val spaceId: String,
+        val linkId: String
+    )
+
 }

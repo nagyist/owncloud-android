@@ -23,6 +23,7 @@ package com.owncloud.android.lib.resources.links.services
 import com.owncloud.android.lib.common.OwnCloudClient
 import com.owncloud.android.lib.common.operations.RemoteOperationResult
 import com.owncloud.android.lib.resources.links.AddRemoteLinkOperation
+import com.owncloud.android.lib.resources.links.RemoveRemoteLinkOperation
 
 class OCLinksService(override val client: OwnCloudClient) : LinksService {
 
@@ -39,5 +40,11 @@ class OCLinksService(override val client: OwnCloudClient) : LinksService {
             type = type,
             expirationDate = expirationDate,
             password = password
+        ).execute(client)
+
+    override fun removeLink(spaceId: String, linkId: String): RemoteOperationResult<Unit> =
+        RemoveRemoteLinkOperation(
+            spaceId = spaceId,
+            linkId = linkId
         ).execute(client)
 }
