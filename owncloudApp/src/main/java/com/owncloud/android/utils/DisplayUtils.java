@@ -62,6 +62,7 @@ public class DisplayUtils {
     private static final int[] sizeScales = {0, 0, 1, 1, 1, 2, 2, 2, 2};
 
     private static final String DATE_FORMAT_DISPLAY = "dd/MM/yyyy HH:mm";
+    private static final String DATE_FORMAT_ISO_WITHOUT_MILLISECONDS = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String DATE_FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private static Map<String, String> mimeType2HumanReadable;
@@ -290,8 +291,12 @@ public class DisplayUtils {
     public static String displayDateToHumanReadable(String date) throws ParseException {
         SimpleDateFormat parser = new SimpleDateFormat(DATE_FORMAT_ISO, Locale.ROOT);
         parser.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date dateParsed = parser.parse(date);
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_DISPLAY, Locale.ROOT);
-        return formatter.format(dateParsed);
+        try {
+            return formatter.format(parser.parse(date));
+        } catch (ParseException e) {
+            parser.applyPattern(DATE_FORMAT_ISO_WITHOUT_MILLISECONDS);
+            return formatter.format(parser.parse(date));
+        }
     }
 }
